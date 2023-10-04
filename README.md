@@ -8,4 +8,10 @@ This report is the progress of making a Automatic Roof Controller RISCV based ap
   * [Unique Instructions](#unique-instructions)
  
 ## <a name="1-day---1"></a> 1.Day - 1 ##
+### <a name="automatic-roof-controller-and-its-working"></a> Automatic Roof Controller and its Working ###
+### <a name="block-diagram"></a> Block Diagram ###
+### <a name="c---code"></a> C - Code ###
+### <a name="assembly-code"></a> Assembly Code ### 
+### <a name="unique-instructions'></a> Unique Instructions ###
+
 
