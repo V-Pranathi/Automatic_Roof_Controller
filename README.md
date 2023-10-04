@@ -29,7 +29,14 @@ The working principle of the rain sensor(FC-37 rain sensor) is indeed straightfo
 * Rain Detection: To detect rain, we monitor the digital output signal. If the signal goes LOW, it indicates that the threshold has been exceeded, and the sensor has detected rain. Conversely, a HIGH signal means no rain is detected.  
 
 ### <a name="block-diagram"></a> Block Diagram ###
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/8e4a947a-2abf-4f2c-9d16-6ca04ce4b456)
+**Circuit Diagram**
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/8e4a947a-2abf-4f2c-9d16-6ca04ce4b456)  
+
+**Block Diagram**
+
+![block_diagram_arc](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/972f5ab8-994a-4cd4-b9c4-9591b7b0c26b)
+
 
 
 ### <a name="c---code"></a> C - Code ###
