@@ -33,8 +33,154 @@ The working principle of the rain sensor(FC-37 rain sensor) is indeed straightfo
 
 
 ### <a name="c---code"></a> C - Code ###
+
+    //#include <stdio.h>
+    void read();
+    void control_roof();
+     //assuming sensors gives 0 if it detects rain
+        //sensors to detect rain :    0    
+        //gpio's for motors operating the roof  : 2
+    int main(){
+        while(1){
+            read();
+        }
+        return(0);
+    }
+    
+    void control_roof() {
+    int rain_sensor_ip;
+    int* roof_status_op;
+    int dummy;
+
+    if (rain_sensor_ip!=1) {
+        // It's raining, close the roof (replace with actual roof control)
+       //printf("Rain detected. Roof closed.\n");
+       dummy = 0xFFFFFFFB;
+        asm(
+            "and x30,x30, %0\n\t"     // Load immediate 1 into x30
+            "or %1, x30, 4\n\t"           // output at 3rd bit, that switches on the motor
+            :"=r"(dummy)
+            :"r"(*roof_status_op)
+            );
+
+        
+    } else {
+        // No rain, open the roof (replace with actual roof control)
+       //printf("No rain detected. Roof opened.\n");
+       dummy = 0xFFFFFFFB;
+       asm(
+            "and x30,x30, %0\n\t"     // Load immediate 1 into x30
+            "or %1, x30, 0\n\t"       //// output at 3rd bit , that switches off the motor
+            :"=r"(dummy)
+            :"r"(*roof_status_op)
+        );
+    }
+    }
+
+    void read(){
+    // Simulated rain sensor input (1: No rain, 0: Rain)
+    // rain_sensor_ip = digital_read(0);
+    int rain_sensor_ip;
+     asm (
+                "and %0, x30, 1\n\t"
+                : "=r"(rain_sensor_ip)
+            );
+     // Roof status output (0: Open, 1: Closed)
+     // roof_status_op = digital_write(2);
+    control_roof();
+    }
+
 ### <a name="assembly-code"></a> Assembly Code ### 
+
+Converting the C code into the assebly code using the following commands:
+
+    $ /home/pranathi/riscv32-toolchain/bin/riscv32-unknown-elf-gcc -c -mabi=ilp32 -march=rv32im -ffreestanding -o arc.o arc.c
+    $ /home/pranathi/riscv32-toolchain/bin/riscv32-unknown-elf-objdump -d arc.o > arc_assembly1.txt
+
+   **Assembly Code**
+   
+    arc.o:     file format elf32-littleriscv
+    
+    
+    Disassembly of section .text:
+    
+    00000000 <main>:
+       0:	ff010113          	add	sp,sp,-16
+       4:	00112623          	sw	ra,12(sp)
+       8:	00812423          	sw	s0,8(sp)
+       c:	01010413          	add	s0,sp,16
+    
+    00000010 <.L2>:
+      10:	00000097          	auipc	ra,0x0
+      14:	000080e7          	jalr	ra # 10 <.L2>
+      18:	ff9ff06f          	j	10 <.L2>
+    
+    0000001c <control_roof>:
+      1c:	fe010113          	add	sp,sp,-32
+      20:	00812e23          	sw	s0,28(sp)
+      24:	02010413          	add	s0,sp,32
+      28:	fec42703          	lw	a4,-20(s0)
+      2c:	00100793          	li	a5,1
+      30:	02f70263          	beq	a4,a5,54 <.L4>
+      34:	ffb00793          	li	a5,-5
+      38:	fef42423          	sw	a5,-24(s0)
+      3c:	fe442783          	lw	a5,-28(s0)
+      40:	0007a783          	lw	a5,0(a5)
+      44:	00ff7f33          	and	t5,t5,a5
+      48:	004f6793          	or	a5,t5,4
+      4c:	fef42423          	sw	a5,-24(s0)
+      50:	0200006f          	j	70 <.L6>
+    
+    00000054 <.L4>:
+      54:	ffb00793          	li	a5,-5
+      58:	fef42423          	sw	a5,-24(s0)
+      5c:	fe442783          	lw	a5,-28(s0)
+      60:	0007a783          	lw	a5,0(a5)
+      64:	00ff7f33          	and	t5,t5,a5
+      68:	000f6793          	or	a5,t5,0
+      6c:	fef42423          	sw	a5,-24(s0)
+    
+    00000070 <.L6>:
+      70:	00000013          	nop
+      74:	01c12403          	lw	s0,28(sp)
+      78:	02010113          	add	sp,sp,32
+      7c:	00008067          	ret
+    
+    00000080 <read>:
+      80:	fe010113          	add	sp,sp,-32
+      84:	00112e23          	sw	ra,28(sp)
+      88:	00812c23          	sw	s0,24(sp)
+      8c:	02010413          	add	s0,sp,32
+      90:	001f7793          	and	a5,t5,1
+      94:	fef42623          	sw	a5,-20(s0)
+      98:	00000097          	auipc	ra,0x0
+      9c:	000080e7          	jalr	ra # 98 <read+0x18>
+      a0:	00000013          	nop
+      a4:	01c12083          	lw	ra,28(sp)
+      a8:	01812403          	lw	s0,24(sp)
+      ac:	02010113          	add	sp,sp,32
+      b0:	00008067          	ret
+      
 ### <a name="unique-instructions"></a> Unique Instructions ###
+To find the number of unique instructions make sure to rename the filename as sample_assembly.txt since the python script that we are using is opening the file name with sample_assembly.txt and both files should be in the same directory. The python script I am using is already uploaded. Now follow the command to get the number of different instructions used.
+
+    $ python3 instruction_counter.py // use this command after ensuring we are in the same directory as the script 
+
+Number of different instructions: 12
+List of unique instructions:
+li
+or
+nop
+beq
+jalr
+add
+j
+lw
+and
+sw
+ret
+auipc
+
 ## <a name="acknowledgement"></a> Acknowledgement ##
 * Kunal Ghosh, VSD Corp. Pvt. Ltd.
 * Mayank Kabra
