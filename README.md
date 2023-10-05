@@ -56,7 +56,7 @@ The working principle of the rain sensor(FC-37 rain sensor) is indeed straightfo
     
     void control_roof() {
     int rain_sensor_ip;
-    int* roof_status_op;
+    int roof_status_op;
     int dummy;
 
     if (rain_sensor_ip!=1) {
@@ -67,7 +67,7 @@ The working principle of the rain sensor(FC-37 rain sensor) is indeed straightfo
             "and x30,x30, %0\n\t"     // Load immediate 1 into x30
             "or %1, x30, 4\n\t"           // output at 3rd bit, that switches on the motor
             :"=r"(dummy)
-            :"r"(*roof_status_op)
+            :"r"(roof_status_op)
             );
 
         
@@ -79,7 +79,7 @@ The working principle of the rain sensor(FC-37 rain sensor) is indeed straightfo
             "and x30,x30, %0\n\t"     // Load immediate 1 into x30
             "or %1, x30, 0\n\t"       //// output at 3rd bit , that switches off the motor
             :"=r"(dummy)
-            :"r"(*roof_status_op)
+            :"r"(roof_status_op)
         );
     }
     }
@@ -106,7 +106,7 @@ Converting the C code into the assebly code using the following commands:
 
    **Assembly Code**
    
-    arc.o:     file format elf32-littleriscv
+     arc.o:     file format elf32-littleriscv
     
     
     Disassembly of section .text:
@@ -128,45 +128,44 @@ Converting the C code into the assebly code using the following commands:
       24:	02010413          	add	s0,sp,32
       28:	fec42703          	lw	a4,-20(s0)
       2c:	00100793          	li	a5,1
-      30:	02f70263          	beq	a4,a5,54 <.L4>
+      30:	02f70063          	beq	a4,a5,50 <.L4>
       34:	ffb00793          	li	a5,-5
       38:	fef42423          	sw	a5,-24(s0)
       3c:	fe442783          	lw	a5,-28(s0)
-      40:	0007a783          	lw	a5,0(a5)
-      44:	00ff7f33          	and	t5,t5,a5
-      48:	004f6793          	or	a5,t5,4
-      4c:	fef42423          	sw	a5,-24(s0)
-      50:	0200006f          	j	70 <.L6>
+      40:	00ff7f33          	and	t5,t5,a5
+      44:	004f6793          	or	a5,t5,4
+      48:	fef42423          	sw	a5,-24(s0)
+      4c:	01c0006f          	j	68 <.L6>
     
-    00000054 <.L4>:
-      54:	ffb00793          	li	a5,-5
-      58:	fef42423          	sw	a5,-24(s0)
-      5c:	fe442783          	lw	a5,-28(s0)
-      60:	0007a783          	lw	a5,0(a5)
-      64:	00ff7f33          	and	t5,t5,a5
-      68:	000f6793          	or	a5,t5,0
-      6c:	fef42423          	sw	a5,-24(s0)
+    00000050 <.L4>:
+      50:	ffb00793          	li	a5,-5
+      54:	fef42423          	sw	a5,-24(s0)
+      58:	fe442783          	lw	a5,-28(s0)
+      5c:	00ff7f33          	and	t5,t5,a5
+      60:	000f6793          	or	a5,t5,0
+      64:	fef42423          	sw	a5,-24(s0)
     
-    00000070 <.L6>:
-      70:	00000013          	nop
-      74:	01c12403          	lw	s0,28(sp)
-      78:	02010113          	add	sp,sp,32
-      7c:	00008067          	ret
+    00000068 <.L6>:
+      68:	00000013          	nop
+      6c:	01c12403          	lw	s0,28(sp)
+      70:	02010113          	add	sp,sp,32
+      74:	00008067          	ret
     
-    00000080 <read>:
-      80:	fe010113          	add	sp,sp,-32
-      84:	00112e23          	sw	ra,28(sp)
-      88:	00812c23          	sw	s0,24(sp)
-      8c:	02010413          	add	s0,sp,32
-      90:	001f7793          	and	a5,t5,1
-      94:	fef42623          	sw	a5,-20(s0)
-      98:	00000097          	auipc	ra,0x0
-      9c:	000080e7          	jalr	ra # 98 <read+0x18>
-      a0:	00000013          	nop
-      a4:	01c12083          	lw	ra,28(sp)
-      a8:	01812403          	lw	s0,24(sp)
-      ac:	02010113          	add	sp,sp,32
-      b0:	00008067          	ret
+    00000078 <read>:
+      78:	fe010113          	add	sp,sp,-32
+      7c:	00112e23          	sw	ra,28(sp)
+      80:	00812c23          	sw	s0,24(sp)
+      84:	02010413          	add	s0,sp,32
+      88:	001f7793          	and	a5,t5,1
+      8c:	fef42623          	sw	a5,-20(s0)
+      90:	00000097          	auipc	ra,0x0
+      94:	000080e7          	jalr	ra # 90 <read+0x18>
+      98:	00000013          	nop
+      9c:	01c12083          	lw	ra,28(sp)
+      a0:	01812403          	lw	s0,24(sp)
+      a4:	02010113          	add	sp,sp,32
+      a8:	00008067          	ret
+
       
 ### <a name="unique-instructions"></a> Unique Instructions ###
 To find the number of unique instructions make sure to rename the filename as sample_assembly.txt since the python script that we are using is opening the file name with sample_assembly.txt and both files should be in the same directory. The python script I am using is already uploaded. Now follow the command to get the number of different instructions used.
@@ -175,18 +174,19 @@ To find the number of unique instructions make sure to rename the filename as sa
 
 Number of different instructions: 12  
 List of unique instructions:  
+beq  
+lw  
+sw  
 li  
+add  
 or  
 nop  
-beq  
 jalr  
-add  
-j  
-lw  
 and  
-sw  
 ret  
-auipc   
+j  
+auipc  
+
 
 ## <a name="acknowledgement"></a> Acknowledgement ##
 * Kunal Ghosh, VSD Corp. Pvt. Ltd.
