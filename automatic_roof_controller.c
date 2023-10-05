@@ -13,7 +13,7 @@ int main(){
 
 void control_roof() {
 int rain_sensor_ip;
-int* roof_status_op;
+int roof_status_op;
 int dummy;
 
     if (rain_sensor_ip!=1) {
@@ -24,7 +24,7 @@ int dummy;
             "and x30,x30, %0\n\t"     // Load immediate 1 into x30
             "or %1, x30, 4\n\t"           // output at 3rd bit, that switches on the motor
             :"=r"(dummy)
-            :"r"(*roof_status_op)
+            :"r"(roof_status_op)
             );
 
         
@@ -36,7 +36,7 @@ int dummy;
             "and x30,x30, %0\n\t"     // Load immediate 1 into x30
             "or %1, x30, 0\n\t"       //// output at 3rd bit , that switches off the motor
             :"=r"(dummy)
-            :"r"(*roof_status_op)
+            :"r"(roof_status_op)
         );
     }
 }
