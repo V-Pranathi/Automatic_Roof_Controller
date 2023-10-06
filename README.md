@@ -37,11 +37,12 @@ The working principle of the rain sensor(FC-37 rain sensor) is indeed straightfo
 
 ![block_diagram_arc](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/972f5ab8-994a-4cd4-b9c4-9591b7b0c26b)
 
-
-
 ### <a name="c---code"></a> C - Code ###
 
-    //#include <stdio.h>
+x30[0] - Input from the sensor
+x30[2] - output to the motor
+
+        //#include <stdio.h>
     void read();
     void control_roof();
      //assuming sensors gives 0 if it detects rain
@@ -58,134 +59,127 @@ The working principle of the rain sensor(FC-37 rain sensor) is indeed straightfo
     int rain_sensor_ip;
     int roof_status_op;
     int dummy;
-
-    if (rain_sensor_ip!=1) {
-        // It's raining, close the roof (replace with actual roof control)
-       //printf("Rain detected. Roof closed.\n");
-       dummy = 0xFFFFFFFB;
-        asm(
-            "and x30,x30, %0\n\t"     // Load immediate 1 into x30
-            "or %1, x30, 4\n\t"           // output at 3rd bit, that switches on the motor
-            :"=r"(dummy)
-            :"r"(roof_status_op)
+    
+        if (rain_sensor_ip!=1) {
+            // It's raining, close the roof (replace with actual roof control)
+           //printf("Rain detected. Roof closed.\n");
+           dummy = 0xFFFFFFFB;
+            asm volatile(
+                "and x30, x30, %0\n\t"     
+                "or x30, x30, 4\n\t"    // output at 3rd bit, that switches on the motor(........000100)
+                :
+                :"r"(dummy)
+                :"x30"
+                );
+    
+            
+        } else {
+            // No rain, open the roof (replace with actual roof control)
+           //printf("No rain detected. Roof opened.\n");
+           dummy = 0xFFFFFFFB;
+           asm volatile(
+                "and x30, x30, %0\n\t"    
+                "or x30, x30, 0\n\t"       // output at 3rd bit , that switches off the motor(........000)
+                :
+                :"r"(dummy)
+                :"x30"
             );
-
-        
-    } else {
-        // No rain, open the roof (replace with actual roof control)
-       //printf("No rain detected. Roof opened.\n");
-       dummy = 0xFFFFFFFB;
-       asm(
-            "and x30,x30, %0\n\t"     // Load immediate 1 into x30
-            "or %1, x30, 0\n\t"       //// output at 3rd bit , that switches off the motor
-            :"=r"(dummy)
-            :"r"(roof_status_op)
-        );
+        }
     }
-    }
-
+    
     void read(){
     // Simulated rain sensor input (1: No rain, 0: Rain)
-    // rain_sensor_ip = digital_read(0);
-    int rain_sensor_ip;
-     asm (
+     // rain_sensor_ip = digital_read(0);
+      // Roof status output (0: Open, 1: Closed)
+     // roof_status_op = digital_write(2);
+     int rain_sensor_ip;
+     asm volatile(
                 "and %0, x30, 1\n\t"
                 : "=r"(rain_sensor_ip)
             );
-     // Roof status output (0: Open, 1: Closed)
-     // roof_status_op = digital_write(2);
+            
     control_roof();
     }
+
 
 ### <a name="assembly-code"></a> Assembly Code ### 
 
 Converting the C code into the assebly code using the following commands:
 
-    $ /home/pranathi/riscv32-toolchain/bin/riscv32-unknown-elf-gcc -c -mabi=ilp32 -march=rv32im -ffreestanding -o arc.o arc.c
-    $ /home/pranathi/riscv32-toolchain/bin/riscv32-unknown-elf-objdump -d arc.o > arc_assembly1.txt
+    $ /home/pranathi/riscv32-toolchain/bin/riscv32-unknown-elf-gcc -march=rv32i -mabi=ilp32 -ffreestanding -nostdlib -o ./out arc.c
+    $ /home/pranathi/riscv32-toolchain/bin/riscv32-unknown-elf-objdump -d -r out > assembly.txt
 
    **Assembly Code**
-   
-     arc.o:     file format elf32-littleriscv
+        
+    out:     file format elf32-littleriscv
     
     
     Disassembly of section .text:
     
-    00000000 <main>:
-       0:	ff010113          	add	sp,sp,-16
-       4:	00112623          	sw	ra,12(sp)
-       8:	00812423          	sw	s0,8(sp)
-       c:	01010413          	add	s0,sp,16
+    00010074 <main>:
+       10074:	ff010113          	add	sp,sp,-16
+       10078:	00112623          	sw	ra,12(sp)
+       1007c:	00812423          	sw	s0,8(sp)
+       10080:	01010413          	add	s0,sp,16
+       10084:	05c000ef          	jal	100e0 <read>
+       10088:	ffdff06f          	j	10084 <main+0x10>
     
-    00000010 <.L2>:
-      10:	00000097          	auipc	ra,0x0
-      14:	000080e7          	jalr	ra # 10 <.L2>
-      18:	ff9ff06f          	j	10 <.L2>
+    0001008c <control_roof>:
+       1008c:	fe010113          	add	sp,sp,-32
+       10090:	00812e23          	sw	s0,28(sp)
+       10094:	02010413          	add	s0,sp,32
+       10098:	fec42703          	lw	a4,-20(s0)
+       1009c:	00100793          	li	a5,1
+       100a0:	00f70e63          	beq	a4,a5,100bc <control_roof+0x30>
+       100a4:	ffb00793          	li	a5,-5
+       100a8:	fef42423          	sw	a5,-24(s0)
+       100ac:	fe842783          	lw	a5,-24(s0)
+       100b0:	00ff7f33          	and	t5,t5,a5
+       100b4:	004f6f13          	or	t5,t5,4
+       100b8:	0180006f          	j	100d0 <control_roof+0x44>
+       100bc:	ffb00793          	li	a5,-5
+       100c0:	fef42423          	sw	a5,-24(s0)
+       100c4:	fe842783          	lw	a5,-24(s0)
+       100c8:	00ff7f33          	and	t5,t5,a5
+       100cc:	000f6f13          	or	t5,t5,0
+       100d0:	00000013          	nop
+       100d4:	01c12403          	lw	s0,28(sp)
+       100d8:	02010113          	add	sp,sp,32
+       100dc:	00008067          	ret
     
-    0000001c <control_roof>:
-      1c:	fe010113          	add	sp,sp,-32
-      20:	00812e23          	sw	s0,28(sp)
-      24:	02010413          	add	s0,sp,32
-      28:	fec42703          	lw	a4,-20(s0)
-      2c:	00100793          	li	a5,1
-      30:	02f70063          	beq	a4,a5,50 <.L4>
-      34:	ffb00793          	li	a5,-5
-      38:	fef42423          	sw	a5,-24(s0)
-      3c:	fe442783          	lw	a5,-28(s0)
-      40:	00ff7f33          	and	t5,t5,a5
-      44:	004f6793          	or	a5,t5,4
-      48:	fef42423          	sw	a5,-24(s0)
-      4c:	01c0006f          	j	68 <.L6>
-    
-    00000050 <.L4>:
-      50:	ffb00793          	li	a5,-5
-      54:	fef42423          	sw	a5,-24(s0)
-      58:	fe442783          	lw	a5,-28(s0)
-      5c:	00ff7f33          	and	t5,t5,a5
-      60:	000f6793          	or	a5,t5,0
-      64:	fef42423          	sw	a5,-24(s0)
-    
-    00000068 <.L6>:
-      68:	00000013          	nop
-      6c:	01c12403          	lw	s0,28(sp)
-      70:	02010113          	add	sp,sp,32
-      74:	00008067          	ret
-    
-    00000078 <read>:
-      78:	fe010113          	add	sp,sp,-32
-      7c:	00112e23          	sw	ra,28(sp)
-      80:	00812c23          	sw	s0,24(sp)
-      84:	02010413          	add	s0,sp,32
-      88:	001f7793          	and	a5,t5,1
-      8c:	fef42623          	sw	a5,-20(s0)
-      90:	00000097          	auipc	ra,0x0
-      94:	000080e7          	jalr	ra # 90 <read+0x18>
-      98:	00000013          	nop
-      9c:	01c12083          	lw	ra,28(sp)
-      a0:	01812403          	lw	s0,24(sp)
-      a4:	02010113          	add	sp,sp,32
-      a8:	00008067          	ret
+    000100e0 <read>:
+       100e0:	fe010113          	add	sp,sp,-32
+       100e4:	00112e23          	sw	ra,28(sp)
+       100e8:	00812c23          	sw	s0,24(sp)
+       100ec:	02010413          	add	s0,sp,32
+       100f0:	001f7793          	and	a5,t5,1
+       100f4:	fef42623          	sw	a5,-20(s0)
+       100f8:	f95ff0ef          	jal	1008c <control_roof>
+       100fc:	00000013          	nop
+       10100:	01c12083          	lw	ra,28(sp)
+       10104:	01812403          	lw	s0,24(sp)
+       10108:	02010113          	add	sp,sp,32
+       1010c:	00008067          	ret
 
       
 ### <a name="unique-instructions"></a> Unique Instructions ###
-To find the number of unique instructions make sure to rename the filename as sample_assembly.txt since the python script that we are using is opening the file name with sample_assembly.txt and both files should be in the same directory. The python script I am using is already uploaded. Now follow the command to get the number of different instructions used.
+To find the number of unique instructions make sure to rename the filename as assembly.txt since the python script that we are using is opening the file name with assembly.txt and both files should be in the same directory. The python script I am using is already uploaded. Now follow the command to get the number of different instructions used.
 
     $ python3 instruction_counter.py // use this command after ensuring we are in the same directory as the script 
 
-Number of different instructions: 12  
-List of unique instructions:  
-beq  
-lw  
-sw  
-li  
-add  
-or  
-nop  
-jalr  
-and  
-ret  
-j  
-auipc  
+Number of different instructions: 11
+List of unique instructions:
+and
+lw
+add
+ret
+j
+jal
+sw
+li
+nop
+or
+beq
 
 
 ## <a name="acknowledgement"></a> Acknowledgement ##
