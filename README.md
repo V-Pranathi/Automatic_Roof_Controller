@@ -39,8 +39,8 @@ The working principle of the rain sensor(FC-37 rain sensor) is indeed straightfo
 
 ### <a name="c---code"></a> C - Code ###
 
-x30[0] - Input from the sensor
-x30[2] - output to the motor
+x30[0] - Input from the sensor  
+x30[2] - output to the motor  
 
         //#include <stdio.h>
     void read();
