@@ -167,19 +167,19 @@ To find the number of unique instructions make sure to rename the filename as as
 
     $ python3 instruction_counter.py // use this command after ensuring we are in the same directory as the script 
 
-Number of different instructions: 11
-List of unique instructions:
-and
-lw
-add
-ret
-j
-jal
-sw
-li
-nop
-or
-beq
+Number of different instructions: 11  
+List of unique instructions:  
+and   
+lw  
+add  
+ret  
+j  
+jal   
+sw  
+li  
+nop  
+or  
+beq  
 
 
 ## <a name="acknowledgement"></a> Acknowledgement ##
