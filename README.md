@@ -49,6 +49,13 @@ x30[2] - output to the motor
         //sensors to detect rain :    0    
         //gpio's for motors operating the roof  : 2
     
+     int main(){
+        while(1){
+            read();
+        }
+        return(0);
+    }
+    
     void control_roof() {
     int rain_sensor_ip;
     int roof_status_op;
@@ -95,15 +102,6 @@ x30[2] - output to the motor
     control_roof();
     }
     
-    int main(){
-        while(1){
-            read();
-        }
-        return(0);
-    }
-    
-
-
 ### <a name="assembly-code"></a> Assembly Code ### 
 
 Converting the C code into the assebly code using the following commands:
@@ -113,55 +111,55 @@ Converting the C code into the assebly code using the following commands:
 
    **Assembly Code**
            
-    out:     file format elf32-littleriscv
-    
-    
-    Disassembly of section .text:
-    
-    00010074 <control_roof>:
-       10074:	fe010113          	add	sp,sp,-32
-       10078:	00812e23          	sw	s0,28(sp)
-       1007c:	02010413          	add	s0,sp,32
-       10080:	fec42703          	lw	a4,-20(s0)
-       10084:	00100793          	li	a5,1
-       10088:	00f70e63          	beq	a4,a5,100a4 <control_roof+0x30>
-       1008c:	ffb00793          	li	a5,-5
-       10090:	fef42423          	sw	a5,-24(s0)
-       10094:	fe842783          	lw	a5,-24(s0)
-       10098:	00ff7f33          	and	t5,t5,a5
-       1009c:	004f6f13          	or	t5,t5,4
-       100a0:	0180006f          	j	100b8 <control_roof+0x44>
-       100a4:	ffb00793          	li	a5,-5
-       100a8:	fef42423          	sw	a5,-24(s0)
-       100ac:	fe842783          	lw	a5,-24(s0)
-       100b0:	00ff7f33          	and	t5,t5,a5
-       100b4:	000f6f13          	or	t5,t5,0
-       100b8:	00000013          	nop
-       100bc:	01c12403          	lw	s0,28(sp)
-       100c0:	02010113          	add	sp,sp,32
-       100c4:	00008067          	ret
-    
-    000100c8 <read>:
-       100c8:	fe010113          	add	sp,sp,-32
-       100cc:	00112e23          	sw	ra,28(sp)
-       100d0:	00812c23          	sw	s0,24(sp)
-       100d4:	02010413          	add	s0,sp,32
-       100d8:	001f7793          	and	a5,t5,1
-       100dc:	fef42623          	sw	a5,-20(s0)
-       100e0:	f95ff0ef          	jal	10074 <control_roof>
-       100e4:	00000013          	nop
-       100e8:	01c12083          	lw	ra,28(sp)
-       100ec:	01812403          	lw	s0,24(sp)
-       100f0:	02010113          	add	sp,sp,32
-       100f4:	00008067          	ret
-    
-    000100f8 <main>:
-       100f8:	ff010113          	add	sp,sp,-16
-       100fc:	00112623          	sw	ra,12(sp)
-       10100:	00812423          	sw	s0,8(sp)
-       10104:	01010413          	add	s0,sp,16
-       10108:	fc1ff0ef          	jal	100c8 <read>
-       1010c:	ffdff06f          	j	10108 <main+0x10>
+     out:     file format elf32-littleriscv
+     
+     
+     Disassembly of section .text:
+     
+     00010074 <main>:
+        10074:	ff010113          	add	sp,sp,-16
+        10078:	00112623          	sw	ra,12(sp)
+        1007c:	00812423          	sw	s0,8(sp)
+        10080:	01010413          	add	s0,sp,16
+        10084:	05c000ef          	jal	100e0 <read>
+        10088:	ffdff06f          	j	10084 <main+0x10>
+     
+     0001008c <control_roof>:
+        1008c:	fe010113          	add	sp,sp,-32
+        10090:	00812e23          	sw	s0,28(sp)
+        10094:	02010413          	add	s0,sp,32
+        10098:	fec42703          	lw	a4,-20(s0)
+        1009c:	00100793          	li	a5,1
+        100a0:	00f70e63          	beq	a4,a5,100bc <control_roof+0x30>
+        100a4:	ffb00793          	li	a5,-5
+        100a8:	fef42423          	sw	a5,-24(s0)
+        100ac:	fe842783          	lw	a5,-24(s0)
+        100b0:	00ff7f33          	and	t5,t5,a5
+        100b4:	004f6f13          	or	t5,t5,4
+        100b8:	0180006f          	j	100d0 <control_roof+0x44>
+        100bc:	ffb00793          	li	a5,-5
+        100c0:	fef42423          	sw	a5,-24(s0)
+        100c4:	fe842783          	lw	a5,-24(s0)
+        100c8:	00ff7f33          	and	t5,t5,a5
+        100cc:	000f6f13          	or	t5,t5,0
+        100d0:	00000013          	nop
+        100d4:	01c12403          	lw	s0,28(sp)
+        100d8:	02010113          	add	sp,sp,32
+        100dc:	00008067          	ret
+     
+     000100e0 <read>:
+        100e0:	fe010113          	add	sp,sp,-32
+        100e4:	00112e23          	sw	ra,28(sp)
+        100e8:	00812c23          	sw	s0,24(sp)
+        100ec:	02010413          	add	s0,sp,32
+        100f0:	001f7793          	and	a5,t5,1
+        100f4:	fef42623          	sw	a5,-20(s0)
+        100f8:	f95ff0ef          	jal	1008c <control_roof>
+        100fc:	00000013          	nop
+        10100:	01c12083          	lw	ra,28(sp)
+        10104:	01812403          	lw	s0,24(sp)
+        10108:	02010113          	add	sp,sp,32
+        1010c:	00008067          	ret
       
 ### <a name="unique-instructions"></a> Unique Instructions ###
 To find the number of unique instructions make sure to rename the filename as assembly.txt since the python script that we are using is opening the file name with assembly.txt and both files should be in the same directory. The python script I am using is already uploaded. Now follow the command to get the number of different instructions used.
@@ -170,16 +168,16 @@ To find the number of unique instructions make sure to rename the filename as as
 
 Number of different instructions: 11  
 List of unique instructions:  
-beq  
-li  
-j  
-or  
 lw  
-and  
-jal  
 sw  
-add  
+jal  
+or  
 ret  
+j  
+li  
+add  
+nop  
+and  
 
 ## <a name="acknowledgement"></a> Acknowledgement ##
 * Kunal Ghosh, VSD Corp. Pvt. Ltd.
