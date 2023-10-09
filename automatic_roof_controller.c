@@ -5,6 +5,13 @@ void control_roof();
     //sensors to detect rain :    0    
     //gpio's for motors operating the roof  : 2
 
+int main(){
+    while(1){
+        read();
+    }
+    return(0);
+}
+
 void control_roof() {
 int rain_sensor_ip;
 int roof_status_op;
@@ -51,10 +58,4 @@ void read(){
 control_roof();
 }
 
-int main(){
-    while(1){
-        read();
-    }
-    return(0);
-}
 
