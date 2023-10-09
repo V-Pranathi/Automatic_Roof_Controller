@@ -168,16 +168,17 @@ To find the number of unique instructions make sure to rename the filename as as
 
 Number of different instructions: 11  
 List of unique instructions:  
-lw  
-sw  
-jal  
-or  
-ret  
-j  
 li  
-add  
-nop  
+jal   
 and  
+j  
+lw  
+add  
+ret  
+or   
+nop  
+beq  
+sw  
 
 ## <a name="acknowledgement"></a> Acknowledgement ##
 * Kunal Ghosh, VSD Corp. Pvt. Ltd.
