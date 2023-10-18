@@ -1,25 +1,31 @@
+
 //#include <stdio.h>
 void read();
-void control_roof();
- //assuming sensors gives 0 if it detects rain
-    //sensors to detect rain :    0    
-    //gpio's for motors operating the roof  : 2
 
 int main(){
     while(1){
         read();
     }
     return(0);
-}
-
-void control_roof() {
-int rain_sensor_ip;
-int roof_status_op;
-int dummy;
-
-    if (rain_sensor_ip!=1) {
+}  
+        
+  void read(){
+  
+ int rain_sensor_ip;
+  asm volatile(
+            "and %0, x30, 1\n\t"
+            : "=r"(rain_sensor_ip)
+        );
+        
+ int roof_status_op;
+ int dummy;
+  
+        if (rain_sensor_ip!=1) {
         // It's raining, close the roof (replace with actual roof control)
-       //printf("Rain detected. Roof closed.\n");
+      //printf("Rain detected. Roof closed.\n");
+     // roof_status_op = 1;
+      //printf("roof_status_op=%d \n", roof_status_op);
+      
        dummy = 0xFFFFFFFB;
         asm volatile(
             "and x30, x30, %0\n\t"     
@@ -28,11 +34,12 @@ int dummy;
             :"r"(dummy)
             :"x30"
             );
-
         
     } else {
         // No rain, open the roof (replace with actual roof control)
        //printf("No rain detected. Roof opened.\n");
+      // roof_status_op = 0;
+      //printf("roof_status_op=%d \n", roof_status_op);
        dummy = 0xFFFFFFFB;
        asm volatile(
             "and x30, x30, %0\n\t"    
@@ -42,20 +49,8 @@ int dummy;
             :"x30"
         );
     }
-}
 
-void read(){
-// Simulated rain sensor input (1: No rain, 0: Rain)
- // rain_sensor_ip = digital_read(0);
-  // Roof status output (0: Open, 1: Closed)
- // roof_status_op = digital_write(2);
- int rain_sensor_ip;
- asm volatile(
-            "and %0, x30, 1\n\t"
-            : "=r"(rain_sensor_ip)
-        );
-        
-control_roof();
-}
+  
 
+}
 
