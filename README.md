@@ -32,7 +32,13 @@ The working principle of the rain sensor(FC-37 rain sensor) is indeed straightfo
 **Circuit Diagram**
 
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/8e4a947a-2abf-4f2c-9d16-6ca04ce4b456)  
+**Verifying the code**
 
+    gcc arc_gcc_21oct.c 
+    ./a.out
+
+  ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/c40f2c75-2242-4c8e-a859-9a8efb9bc7df)
+  
 **Block Diagram**
 
 ![block_diagram_arc](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/972f5ab8-994a-4cd4-b9c4-9591b7b0c26b)
@@ -40,58 +46,75 @@ The working principle of the rain sensor(FC-37 rain sensor) is indeed straightfo
 ### <a name="c---code"></a> C - Code ###
 
 x30[0] - Input from the sensor  
-x30[2] - output to the motor  
+x30[1] - output to the motor  
 
-    //#include <stdio.h>
-    void read();
     
-    int main(){
-        while(1){
-            read();
-        }
-        return(0);
-    }  
-            
-      void read(){
-      
-     int rain_sensor_ip;
-      asm volatile(
-                "and %0, x30, 1\n\t"
-                : "=r"(rain_sensor_ip)
-            );
-            
-     int roof_status_op;
-     int dummy;
-  
-        if (rain_sensor_ip!=1) {
-        // It's raining, close the roof (replace with actual roof control)
-      //printf("Rain detected. Roof closed.\n");
-     // roof_status_op = 1;
-      //printf("roof_status_op=%d \n", roof_status_op);
-      
-       dummy = 0xFFFFFFFB;
-        asm volatile(
-            "and x30, x30, %0\n\t"     
-            "or x30, x30, 4\n\t"    // output at 3rd bit, that switches on the motor(........000100)
-            :
-            :"r"(dummy)
-            :"x30"
-            );
-        
-    } else {
-        // No rain, open the roof (replace with actual roof control)
-       //printf("No rain detected. Roof opened.\n");
-      // roof_status_op = 0;
-      //printf("roof_status_op=%d \n", roof_status_op);
-       dummy = 0xFFFFFFFB;
-       asm volatile(
-            "and x30, x30, %0\n\t"    
-            "or x30, x30, 0\n\t"       // output at 3rd bit , that switches off the motor(........000)
-            :
-            :"r"(dummy)
-            :"x30"
-          );
-      }
+    //#include <stdio.h>
+    int main()
+    {
+    
+    	int rain_sensor_ip;
+    	
+    	int roof_status_op = 0; 
+    	int roof_status_op_reg;
+    	
+    	roof_status_op_reg = roof_status_op*2;
+    	
+    	
+    		asm volatile(
+    	    	"or x30, x30, %0\n\t"  
+    	    	:
+    	    	: "r" (roof_status_op_reg)
+    		: "x30" 
+    		);
+    		
+    	while(1)
+    	{
+    			
+    		asm volatile(
+    		"andi %0, x30, 0x01\n\t"
+    		: "=r" (rain_sensor_ip)
+    		:
+    		:);
+    	
+    	if (rain_sensor_ip)
+    	{
+    	
+    	roof_status_op = 0; 
+    	
+    	roof_status_op_reg = roof_status_op*2;
+    			
+    		asm volatile(
+    		"or x30, x30, %0\n\t"   
+    		:
+    		: "r" (roof_status_op_reg)
+    		: "x30" 
+    		);
+    	 //printf("Rain not detected. Roof opened.\n");
+       
+          //printf("roof_status_op=%d \n", roof_status_op);
+    	
+    	}	
+    	else
+    	{
+    	
+    	roof_status_op = 1; 
+    	
+    	roof_status_op_reg = roof_status_op*2;
+    		asm volatile(
+        		"or x30, x30, %0\n\t"  
+        		:
+        		: "r" (roof_status_op_reg)
+    		: "x30" 
+    		);
+    	//printf("Rain detected. Roof closed.\n");
+     
+         // printf("roof_status_op=%d \n", roof_status_op);
+    	}
+    	}
+    	
+    	return 0;
+    
     }
 
 
@@ -99,68 +122,63 @@ x30[2] - output to the motor
 
 Converting the C code into the assebly code using the following commands:
 
-    $ /home/pranathi/riscv32-toolchain/bin/riscv32-unknown-elf-gcc -march=rv32i -mabi=ilp32 -ffreestanding -nostdlib -o ./out arc.c
-    $ /home/pranathi/riscv32-toolchain/bin/riscv32-unknown-elf-objdump -d -r out > assembly.txt
+    riscv64-unknown-elf-gcc -march=rv32i -mabi=ilp32 -ffreestanding -nostdlib -o out arc.c 
+    riscv64-unknown-elf-objdump -d -r out > asm.txt
 
    **Assembly Code**
            
+   
     out:     file format elf32-littleriscv
     
     
     Disassembly of section .text:
     
-    00010074 <main>:
-       10074:	ff010113          	add	sp,sp,-16
-       10078:	00112623          	sw	ra,12(sp)
-       1007c:	00812423          	sw	s0,8(sp)
-       10080:	01010413          	add	s0,sp,16
-       10084:	008000ef          	jal	1008c <read>
-       10088:	ffdff06f          	j	10084 <main+0x10>
-    
-    0001008c <read>:
-       1008c:	fe010113          	add	sp,sp,-32
-       10090:	00812e23          	sw	s0,28(sp)
-       10094:	02010413          	add	s0,sp,32
-       10098:	001f7793          	and	a5,t5,1
-       1009c:	fef42623          	sw	a5,-20(s0)
-       100a0:	fec42703          	lw	a4,-20(s0)
+    00010054 <main>:
+       10054:	fe010113          	addi	sp,sp,-32
+       10058:	00812e23          	sw	s0,28(sp)
+       1005c:	02010413          	addi	s0,sp,32
+       10060:	fe042623          	sw	zero,-20(s0)
+       10064:	fec42783          	lw	a5,-20(s0)
+       10068:	00179793          	slli	a5,a5,0x1
+       1006c:	fef42423          	sw	a5,-24(s0)
+       10070:	fe842783          	lw	a5,-24(s0)
+       10074:	00ff6f33          	or	t5,t5,a5
+       10078:	001f7793          	andi	a5,t5,1
+       1007c:	fef42223          	sw	a5,-28(s0)
+       10080:	fe442783          	lw	a5,-28(s0)
+       10084:	02078063          	beqz	a5,100a4 <main+0x50>
+       10088:	fe042623          	sw	zero,-20(s0)
+       1008c:	fec42783          	lw	a5,-20(s0)
+       10090:	00179793          	slli	a5,a5,0x1
+       10094:	fef42423          	sw	a5,-24(s0)
+       10098:	fe842783          	lw	a5,-24(s0)
+       1009c:	00ff6f33          	or	t5,t5,a5
+       100a0:	fd9ff06f          	j	10078 <main+0x24>
        100a4:	00100793          	li	a5,1
-       100a8:	00f70e63          	beq	a4,a5,100c4 <read+0x38>
-       100ac:	ffb00793          	li	a5,-5
-       100b0:	fef42423          	sw	a5,-24(s0)
-       100b4:	fe842783          	lw	a5,-24(s0)
-       100b8:	00ff7f33          	and	t5,t5,a5
-       100bc:	004f6f13          	or	t5,t5,4
-       100c0:	0180006f          	j	100d8 <read+0x4c>
-       100c4:	ffb00793          	li	a5,-5
-       100c8:	fef42423          	sw	a5,-24(s0)
-       100cc:	fe842783          	lw	a5,-24(s0)
-       100d0:	00ff7f33          	and	t5,t5,a5
-       100d4:	000f6f13          	or	t5,t5,0
-       100d8:	00000013          	nop
-       100dc:	01c12403          	lw	s0,28(sp)
-       100e0:	02010113          	add	sp,sp,32
-       100e4:	00008067          	ret
+       100a8:	fef42623          	sw	a5,-20(s0)
+       100ac:	fec42783          	lw	a5,-20(s0)
+       100b0:	00179793          	slli	a5,a5,0x1
+       100b4:	fef42423          	sw	a5,-24(s0)
+       100b8:	fe842783          	lw	a5,-24(s0)
+       100bc:	00ff6f33          	or	t5,t5,a5
+       100c0:	fb9ff06f          	j	10078 <main+0x24>
        
 ### <a name="unique-instructions"></a> Unique Instructions ###
 To find the number of unique instructions make sure to rename the filename as assembly.txt since the python script that we are using is opening the file name with assembly.txt and both files should be in the same directory. The python script I am using is already uploaded. Now follow the command to get the number of different instructions used.
 
     $ python3 instruction_counter.py // use this command after ensuring we are in the same directory as the script 
 
-Number of different instructions: 11  
+Number of different instructions: 9  
 List of unique instructions:  
-or  
-li  
-j  
-add  
-sw  
-ret  
-and   
-lw  
-beq   
-nop  
-jal  
-  
+   sw  
+   or  
+   slli  
+   beqz  
+   j  
+   lw  
+   li  
+   addi  
+   andi  
 
 ## <a name="acknowledgement"></a> Acknowledgement ##
 * Kunal Ghosh, VSD Corp. Pvt. Ltd.
