@@ -6,6 +6,7 @@ This report is the progress of making a Automatic Roof Controller RISCV based ap
   * [C - Code](#c---code)
   * [Assembly Code](#assembly-code)
   * [Unique Instructions](#unique-instructions)
+  * [Functional Simulation](#functional_simulation)
 * [Acknowledgemnet](#acknowledgement)
 * [References](#references)
 
@@ -180,6 +181,9 @@ List of unique instructions:
    addi  
    andi  
 
+### <a name="functional_simulation"></a> Functional Simulation ###
+![Screenshot from 2023-10-24 16-28-59](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/0dfefa65-9980-4157-a498-7152c2cf7cfc)
+In the above screenshot we can see that after write_done=1, ID_instruction is getting started 
 ## <a name="acknowledgement"></a> Acknowledgement ##
 * Kunal Ghosh, VSD Corp. Pvt. Ltd.
 * Mayank Kabra
