@@ -5,14 +5,15 @@ int main()
 	
 	int roof_status_op = 0; 
 	int roof_status_op_reg;
-	
+	int mask =0xFFFFFFFD;
 	roof_status_op_reg = roof_status_op*2;
 	
 	
 		asm volatile(
+		"and x30, x30, %1\n\t"
 	    	"or x30, x30, %0\n\t"  
 	    	:
-	    	: "r" (roof_status_op_reg)
+	    	: "r" (roof_status_op_reg), "r"(mask)
 		: "x30" 
 		);
 		
@@ -29,13 +30,14 @@ int main()
 	{
 	
 	roof_status_op = 0; 
-	
+	mask =0xFFFFFFFD;
 	roof_status_op_reg = roof_status_op*2;
 			
 		asm volatile(
+		"and x30,x30, %1\n\t"  
 		"or x30, x30, %0\n\t"   
 		:
-		: "r" (roof_status_op_reg)
+		: "r" (roof_status_op_reg), "r"(mask)
 		: "x30" 
 		);
 	 //printf("Rain not detected. Roof opened.\n");
@@ -47,12 +49,13 @@ int main()
 	{
 	
 	roof_status_op = 1; 
-	
+	mask =0xFFFFFFFD;
 	roof_status_op_reg = roof_status_op*2;
 		asm volatile(
+		"and x30,x30, %1\n\t"  
     		"or x30, x30, %0\n\t"  
     		:
-    		: "r" (roof_status_op_reg)
+    		: "r" (roof_status_op_reg), "r"(mask)
 		: "x30" 
 		);
 	//printf("Rain detected. Roof closed.\n");
