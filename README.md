@@ -217,6 +217,7 @@ Modifying C code for spike simulation and verification
      
      }
 
+Commands to run spike: 
 
      riscv64-unknown-elf-gcc -march=rv64i -mabi=lp64 -ffreestanding -o out file.c
      spike pk out
