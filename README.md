@@ -124,7 +124,7 @@ x30[1] - output to the motor
 
 ### <a name="spike-simulation"></a> Spike Simulation ###
 
-Modifying C code for spike simulation and verification
+Modifying C code for spike simulation and verification 
 
     #include<stdio.h>
     int main()
@@ -223,8 +223,10 @@ Commands to run spike:
      riscv64-unknown-elf-gcc -march=rv64i -mabi=lp64 -ffreestanding -o out arc.c
      spike pk out
 
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/b581d3eb-f956-48e0-b61a-50d17fc78815)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/b581d3eb-f956-48e0-b61a-50d17fc78815)  
 
+Based on my application whenever the sensor reads '0' (rain_sensor_ip) which means rain is falling then the roof should be closed which is '1'(roof_status_op). 
+We can observe the same in the above spike simulation my input is being '0' for j=0,1,2 so my output for that input should be showing '1' and for the x30 register posotions of input and output are x30[0] and x30[1] respectively for the given input an doutput combination my x30 register should be '2'. Similarly, whenever the sensor reads '1' (rain_sensor_ip) which means rain is not falling then the roof should be opened which is '0'(roof_status_op). We can observe the same in the above spike simulation my input is being '1' for j=3,4 so my output for that input should be showing '0' and for the x30 register posotions of input and output are x30[0] and x30[1] respectively for the given input an doutput combination my x30 register should be '1'. As expected, we can see the Spike simulation results from the above figure.
 ### <a name="assembly-code"></a> Assembly Code ### 
 
 Converting the C code into the assebly code using the following commands:
