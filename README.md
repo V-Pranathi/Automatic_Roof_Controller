@@ -190,6 +190,7 @@ Modifying C code for spike simulation and verification
              mask =0xFFFFFFFD;
      	roof_status_op_reg = roof_status_op*2;
      		asm volatile(
+      		        "and x30, x30, %1\n\t"
          		"or x30, x30, %0\n\t"  
          		:
          		: "r" (roof_status_op_reg), "r"(mask)
