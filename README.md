@@ -4,6 +4,7 @@ This report is the progress of making a Automatic Roof Controller RISCV based ap
   * [Automatic Roof Controller and its Working](#automatic-roof-controller-and-its-working)
   * [Block Diagram](#block-diagram)
   * [C - Code](#c---code)
+  * [Spike Simulation](#spike-simulation)
   * [Assembly Code](#assembly-code)
   * [Unique Instructions](#unique-instructions)
   * [Functional Simulation](#functional_simulation)
@@ -119,6 +120,109 @@ x30[1] - output to the motor
     }
 
 
+### <a name="spike-simulation"></a> Spike Simulation ###
+
+Modifying C code for spike simulation and verification
+
+     #include<stdio.h>
+     int main()
+     {
+             int testing;
+     	int rain_sensor_ip;
+     	int i;
+     	
+     	int roof_status_op = 0; 
+     	int mask =0xFFFFFFFD;
+     	int roof_status_op_reg;
+     	
+     	roof_status_op_reg = roof_status_op*2;
+     	
+     	
+     		asm volatile(
+     		"and x30, x30, %1\n\t"
+     	    	"or x30, x30, %0\n\t"  
+     	    	:
+     	    	: "r" (roof_status_op_reg), "r"(mask)
+     		: "x30" 
+     		);
+     		
+     	for(int j=0;j<5;j++)
+     	{
+     			if(j<3)
+     			i=0;
+     			else
+     			i=1;
+     		asm volatile(
+     		"or x30, x30, %1\n\t"
+     		"andi %0, x30, 0x01\n\t"
+     		: "=r" (rain_sensor_ip)
+     		: "r" (i)
+     		: "x30"
+     		);
+     	
+     	if (rain_sensor_ip)
+     	{
+     	
+     	roof_status_op = 0; 
+     	 //printf("Rain not detected. Roof opened.\n");
+     
+          // printf("roof_status_op=%d \n", roof_status_op);
+     	roof_status_op_reg = roof_status_op*2;
+     			
+     		asm volatile(
+     		"or x30, x30, %0\n\t"   
+     		:
+     		: "r" (roof_status_op_reg)
+     		: "x30" 
+     		);
+     	
+     	asm volatile(
+         		"addi %0, x30, 0\n\t"
+         		:"=r"(testing)
+         		:
+         		:"x30"
+         		);
+         	 printf("x30 = %d\n",testing);
+     	
+     	}	
+     	else
+     	{
+     	
+     	roof_status_op = 1; 
+     	//printf("Rain detected. Roof closed.\n");
+          //printf("roof_status_op=%d \n", roof_status_op);
+     	roof_status_op_reg = roof_status_op*2;
+     		asm volatile(
+         		"or x30, x30, %0\n\t"  
+         		:
+         		: "r" (roof_status_op_reg)
+     		: "x30" 
+     		);
+     	
+     	asm volatile(
+         		"addi %0, x30, 0\n\t"
+         		:"=r"(testing)
+         		:
+         		:"x30"
+         		);
+         	 printf("x30 = %d\n",testing);
+     	}
+     	    printf("rain_sensor_ip=%d \n", rain_sensor_ip);
+     	 printf("roof_status_op=%d \n", roof_status_op);
+     	 
+     	
+     	}
+     	
+     	return 0;
+     
+     }
+
+
+     riscv64-unknown-elf-gcc -march=rv64i -mabi=lp64 -ffreestanding -o out file.c
+     spike pk out
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/b581d3eb-f956-48e0-b61a-50d17fc78815)
+
 ### <a name="assembly-code"></a> Assembly Code ### 
 
 Converting the C code into the assebly code using the following commands:
@@ -182,8 +286,7 @@ List of unique instructions:
    andi  
 
 ### <a name="functional_simulation"></a> Functional Simulation ###
-![Screenshot from 2023-10-24 16-28-59](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/0dfefa65-9980-4157-a498-7152c2cf7cfc)
-In the above screenshot we can see that after write_done=1, ID_instruction is getting started 
+
 ## <a name="acknowledgement"></a> Acknowledgement ##
 * Kunal Ghosh, VSD Corp. Pvt. Ltd.
 * Mayank Kabra
