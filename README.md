@@ -129,7 +129,7 @@ Modifying C code for spike simulation and verification
     #include<stdio.h>
     int main()
     {
-            int testing;
+        int testing;
     	int rain_sensor_ip;
     	int i;
 	
