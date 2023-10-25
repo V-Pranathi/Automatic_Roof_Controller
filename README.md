@@ -3,8 +3,8 @@ This report is the progress of making a Automatic Roof Controller RISCV based ap
 * [1.Day - 1](#1-day---1)
   * [Automatic Roof Controller and its Working](#automatic-roof-controller-and-its-working)
   * [Block Diagram](#block-diagram)
-  * [C - Code](#c---code)
   * [Spike Simulation](#spike-simulation)
+  * [C - Code](#c---code)
   * [Assembly Code](#assembly-code)
   * [Unique Instructions](#unique-instructions)
   * [Functional Simulation](#functional_simulation)
@@ -43,7 +43,28 @@ The working principle of the rain sensor(FC-37 rain sensor) is indeed straightfo
   
 **Block Diagram**
 
-![block_diagram_arc](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/972f5ab8-994a-4cd4-b9c4-9591b7b0c26b)
+![block_diagram_arc](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/972f5ab8-994a-4cd4-b9c4-9591b7b0c26b)  
+
+### <a name="spike-simulation"></a> Spike Simulation ###  
+
+* We tested the functional simulation above but here using spike also we would be doing fuctional simulation but here the differnce is we are linking the  c program with the inline assembly(**asm**).
+
+Modifying C code for spike simulation and verification 
+
+   
+
+
+
+Commands to run spike: 
+
+     riscv64-unknown-elf-gcc -march=rv64i -mabi=lp64 -ffreestanding -o out arc.c
+     spike pk out
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/b581d3eb-f956-48e0-b61a-50d17fc78815)  
+
+* Based on my application whenever the sensor reads '0' (rain_sensor_ip) which means rain is falling then the roof should be closed which is '1'(roof_status_op). We can observe the same in the above spike simulation my input is being '0' my output for that input is showing '1' and for the x30 register positions of input and output are x30[0] and x30[1] respectively for the given input and output combination my x30 register should be '2'.
+  
+* Similarly, whenever the sensor reads '1' (rain_sensor_ip) which means rain is not falling then the roof should be opened which is '0'(roof_status_op). We can observe the same in the above spike simulation my input is being '1' ,so my output for that input is showing '0' and for the x30 register positions of input and output are x30[0] and x30[1] respectively for the given input and output combination my x30 register should be '1'. As expected, we can see the Spike simulation results from the above figure.  
 
 ### <a name="c---code"></a> C - Code ###
 
@@ -122,112 +143,7 @@ x30[1] - output to the motor
     }
 
 
-### <a name="spike-simulation"></a> Spike Simulation ###
 
-Modifying C code for spike simulation and verification 
-
-    #include<stdio.h>
-    int main()
-    {
-        int testing;
-    	int rain_sensor_ip;
-    	int i;
-	
-     	int roof_status_op = 0; 
-     	int mask =0xFFFFFFFD;
-     	int roof_status_op_reg;
-     	
-     	roof_status_op_reg = roof_status_op*2;
-     	
-     	
-     		asm volatile(
-     		"and x30, x30, %1\n\t"
-     	    	"or x30, x30, %0\n\t"  
-     	    	:
-     	    	: "r" (roof_status_op_reg), "r"(mask)
-     		: "x30" 
-     		);
-     		
-     	for(int j=0;j<5;j++)
-     	{
-     			if(j<3)
-     			i=0;
-     			else
-     			i=1;
-     		asm volatile(
-     		"or x30, x30, %1\n\t"
-     		"andi %0, x30, 0x01\n\t"
-     		: "=r" (rain_sensor_ip)
-     		: "r" (i)
-     		: "x30"
-     		);
-     	
-     	if (rain_sensor_ip)
-     	{
-     	
-     	roof_status_op = 0; 
-     	 //printf("Rain not detected. Roof opened.\n");
-             mask =0xFFFFFFFD;
-          // printf("roof_status_op=%d \n", roof_status_op);
-     	roof_status_op_reg = roof_status_op*2;
-     			
-     		asm volatile(
-     		"and x30, x30, %1\n\t"
-     		"or x30, x30, %0\n\t"   
-     		:
-     		: "r" (roof_status_op_reg), "r"(mask)
-     		: "x30" 
-     		);
-     	
-     	
-     	}	
-     	else
-     	{
-     	
-     	roof_status_op = 1; 
-     	//printf("Rain detected. Roof closed.\n");
-          //printf("roof_status_op=%d \n", roof_status_op);
-             mask =0xFFFFFFFD;
-     	roof_status_op_reg = roof_status_op*2;
-     		asm volatile(
-      		        "and x30, x30, %1\n\t"
-         		"or x30, x30, %0\n\t"  
-         		:
-         		: "r" (roof_status_op_reg), "r"(mask)
-     		: "x30" 
-     		);
-     	
-     	
-     	}
-     	
-     	  asm volatile(
-         		"addi %0, x30, 0\n\t"
-         		:"=r"(testing)
-         		:
-         		:"x30"
-         		);
-         	 printf("x30 = %d\n",testing);
-     	printf("rain_sensor_ip=%d \n", rain_sensor_ip);
-     	 printf("roof_status_op=%d \n", roof_status_op);
-     	 
-     	
-     	}
-     	
-     	return 0;
-
-    }
-
-
-
-Commands to run spike: 
-
-     riscv64-unknown-elf-gcc -march=rv64i -mabi=lp64 -ffreestanding -o out arc.c
-     spike pk out
-
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/b581d3eb-f956-48e0-b61a-50d17fc78815)  
-
-Based on my application whenever the sensor reads '0' (rain_sensor_ip) which means rain is falling then the roof should be closed which is '1'(roof_status_op). 
-We can observe the same in the above spike simulation my input is being '0' my output for that input is showing '1' and for the x30 register positions of input and output are x30[0] and x30[1] respectively for the given input and output combination my x30 register should be '2'. Similarly, whenever the sensor reads '1' (rain_sensor_ip) which means rain is not falling then the roof should be opened which is '0'(roof_status_op). We can observe the same in the above spike simulation my input is being '1' ,so my output for that input is showing '0' and for the x30 register positions of input and output are x30[0] and x30[1] respectively for the given input and output combination my x30 register should be '1'. As expected, we can see the Spike simulation results from the above figure.  
 
 ### <a name="assembly-code"></a> Assembly Code ### 
 
