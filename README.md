@@ -49,11 +49,7 @@ The working principle of the rain sensor(FC-37 rain sensor) is indeed straightfo
 
 * We tested the functional simulation above but here using spike also we would be doing fuctional simulation but here the differnce is we are linking the  c program with the inline assembly(**asm**).
 
-Modifying C code for spike simulation and verification 
-
-   
-
-
+Modifying C code for spike simulation and verification which can be found above as ```arc_spike.c```
 
 Commands to run spike: 
 
