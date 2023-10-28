@@ -235,8 +235,10 @@ lw
 * And the spikes that are visible in the output signal is due to resetting the output to zero after every cycle.
   
   ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/d27ea076-0efc-405b-92b7-7fde491ad73c)
-
   
+* The ```$signal[31:0]``` is actually represents x30 register where inputs are being stored in there from the sensor retieving thoe values to compute the output and then stored back in the x30 register.
+* The ```ID_instruction``` , each instruction is decoded and then only the later steps takes place one by one. 
+
 ## <a name="acknowledgement"></a> Acknowledgement ##
 * Kunal Ghosh, VSD Corp. Pvt. Ltd.
 * Mayank Kabra
