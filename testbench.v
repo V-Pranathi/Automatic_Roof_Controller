@@ -113,7 +113,7 @@ begin
     $dumpvars(0,tb);
 end 
 
-reg input_wires; 
+reg  input_wires; 
 wire output_wires ; 
 wire [2:0] pc ; 
 
@@ -130,7 +130,6 @@ initial begin
     uart_rxd = 1'b1;
     neg_clk = 1'b1; 
     input_wires = 1'b1;
- 
     #4000
     resetn = 1'b1;
     rst=0;
@@ -138,51 +137,63 @@ initial begin
     rst_pin = 0 ; 
   
 
-    uart_rx_en = 1'b1;
+   /* uart_rx_en = 1'b1;
     @(posedge slow_clk);write_instruction(32'h00000000); 
     @(posedge slow_clk);write_instruction(32'h00000000); 
     @(posedge slow_clk);write_instruction(32'hfe010113); 
     @(posedge slow_clk);write_instruction(32'h00812e23); 
     @(posedge slow_clk);write_instruction(32'h02010413); 
     @(posedge slow_clk);write_instruction(32'hfe042623); 
+    @(posedge slow_clk);write_instruction(32'hffd00793); 
+    @(posedge slow_clk);write_instruction(32'hfef42423); 
     @(posedge slow_clk);write_instruction(32'hfec42783); 
     @(posedge slow_clk);write_instruction(32'h00179793); 
-    @(posedge slow_clk);write_instruction(32'hfef42423); 
-    @(posedge slow_clk);write_instruction(32'hfe842783); 
-    @(posedge slow_clk);write_instruction(32'h00ff6f33); 
-    @(posedge slow_clk);write_instruction(32'h001f7793); 
     @(posedge slow_clk);write_instruction(32'hfef42223); 
     @(posedge slow_clk);write_instruction(32'hfe442783); 
-    @(posedge slow_clk);write_instruction(32'h02078063); 
+    @(posedge slow_clk);write_instruction(32'hfe842703); 
+    @(posedge slow_clk);write_instruction(32'h00ef7f33); 
+    @(posedge slow_clk);write_instruction(32'h00ff6f33); 
+    @(posedge slow_clk);write_instruction(32'h001f7793); 
+    @(posedge slow_clk);write_instruction(32'hfef42023); 
+    @(posedge slow_clk);write_instruction(32'hfe042783); 
+    @(posedge slow_clk);write_instruction(32'h02078863); 
     @(posedge slow_clk);write_instruction(32'hfe042623); 
+    @(posedge slow_clk);write_instruction(32'hffd00793); 
+    @(posedge slow_clk);write_instruction(32'hfef42423); 
     @(posedge slow_clk);write_instruction(32'hfec42783); 
     @(posedge slow_clk);write_instruction(32'h00179793); 
-    @(posedge slow_clk);write_instruction(32'hfef42423); 
-    @(posedge slow_clk);write_instruction(32'hfe842783); 
+    @(posedge slow_clk);write_instruction(32'hfef42223); 
+    @(posedge slow_clk);write_instruction(32'hfe442783); 
+    @(posedge slow_clk);write_instruction(32'hfe842703); 
+    @(posedge slow_clk);write_instruction(32'h00ef7f33); 
     @(posedge slow_clk);write_instruction(32'h00ff6f33); 
-    @(posedge slow_clk);write_instruction(32'hfd9ff06f); 
+    @(posedge slow_clk);write_instruction(32'hfc9ff06f); 
     @(posedge slow_clk);write_instruction(32'h00100793); 
     @(posedge slow_clk);write_instruction(32'hfef42623); 
+    @(posedge slow_clk);write_instruction(32'hffd00793); 
+    @(posedge slow_clk);write_instruction(32'hfef42423); 
     @(posedge slow_clk);write_instruction(32'hfec42783); 
     @(posedge slow_clk);write_instruction(32'h00179793); 
-    @(posedge slow_clk);write_instruction(32'hfef42423); 
-    @(posedge slow_clk);write_instruction(32'hfe842783); 
+    @(posedge slow_clk);write_instruction(32'hfef42223); 
+    @(posedge slow_clk);write_instruction(32'hfe442783); 
+    @(posedge slow_clk);write_instruction(32'hfe842703); 
+    @(posedge slow_clk);write_instruction(32'h00ef7f33); 
     @(posedge slow_clk);write_instruction(32'h00ff6f33); 
-    @(posedge slow_clk);write_instruction(32'hfb9ff06f); 
+    @(posedge slow_clk);write_instruction(32'hf99ff06f); 
     @(posedge slow_clk);write_instruction(32'hffffffff); 
-    @(posedge slow_clk);write_instruction(32'hffffffff); 
+    @(posedge slow_clk);write_instruction(32'hffffffff); */
 
-     $display("Test Results:");
+    $display("Test Results:");
      $display("    PASSES: %d", passes);
      $display("    FAILS : %d", fails);
     #100000
     $display("Finish simulation at time %d", $time);
     $finish;
-     
 end
+
 always @(posedge clk)
-#129348850 input_wires = ~input_wires;
-  
+#4430 input_wires = ~input_wires;
+
  wrapper dut (
 .clk        (clk          ), // Top level system clock input.
 .resetn       (resetn       ), // Asynchronous active low reset.
