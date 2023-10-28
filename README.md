@@ -225,19 +225,13 @@ lw
       ./test
       gtkwave waveform.vcd
 
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/b331e4b7-3593-403f-9d88-89bdff212702)
-
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/65180c0b-49e3-4026-94a3-9790dc0cc09e)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/536d16bf-4788-4392-90bc-2c01541ea7fa)
 
 * In the above figure, we can see the test results stating fails:0 which means that UART transmission is done without any error.
-
-  ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/2f056027-3dca-4cd2-9a27-c8c73777d8ca)
-
-* We can observe that ```write_done=1```, this happens after the UART transmission is completed and the instructions now stored in the memory. After write_done becomes 1 pc starts incrementing based on the assembly program and the inputs given in the testbench.
   
-  ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/257e7bed-1daa-4564-91a4-4799afb6f132)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/62d6f074-e0c5-46db-a510-63943a054250)
 
-* In the testbench I have given the input initially as "1" and then changing the input to "0" correspondingly output is inverted. By this we veirified the functional simulation and now can proceed with the gate level simulation.
+* In the testbench I have given the input initially as "1" and then changing the input to "0" correspondingly output is inverted. By this we verified the functional simulation and now can proceed with the gate level simulation.
   
 ## <a name="acknowledgement"></a> Acknowledgement ##
 * Kunal Ghosh, VSD Corp. Pvt. Ltd.
