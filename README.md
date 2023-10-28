@@ -231,7 +231,11 @@ lw
   
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/62d6f074-e0c5-46db-a510-63943a054250)
 
-* In the testbench I have given the input initially as "1" and then changing the input to "0" correspondingly output is inverted. By this we verified the functional simulation and now can proceed with the gate level simulation.
+* In the testbench I have given the input initially as "1" and then changing the input to "0" correspondingly output is inverted.  By this we verified the functional simulation and now can proceed with the gate level simulation.
+* And the spikes that are visible in the output signal is due to resetting the output to zero after every cycle.
+  
+  ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/d27ea076-0efc-405b-92b7-7fde491ad73c)
+
   
 ## <a name="acknowledgement"></a> Acknowledgement ##
 * Kunal Ghosh, VSD Corp. Pvt. Ltd.
