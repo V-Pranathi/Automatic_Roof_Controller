@@ -260,8 +260,8 @@ lw
 
 * Output is changing from 1 to 0 after the execution of instruction ```00ef7f33```  
 
-## <a name="2-synthesis-yosys--and-gls">/a>2. Synthesis(Yosys) and GLS ##
-### <a name="run-synthesis">/a>Run Synthesis ##
+## <a name="2-synthesis-yosys--and-gls">/a> 2. Synthesis(Yosys) and GLS ##
+### <a name="run-synthesis">/a> Run Synthesis ##
 **Commands to run synthesis**
 
     yosys
@@ -284,7 +284,7 @@ lw
 
 
 
-### <a name="synthesized-netlist-logic-verification">/a>Synthesized Netlist Logic Verification ##
+### <a name="synthesized-netlist-logic-verification">/a> Synthesized Netlist Logic Verification ##
   
 
     
