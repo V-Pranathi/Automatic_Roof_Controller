@@ -1,6 +1,6 @@
 # Automatic_Roof_Controller
 This report is the progress of making a Automatic Roof Controller RISCV based application
-* [1.Day - 1](#1-day---1)
+* [1.RTL and Functional verification](#1-rtl-and-functional-verification)
   * [Automatic Roof Controller and its Working](#automatic-roof-controller-and-its-working)
   * [Block Diagram](#block-diagram)
   * [Spike Simulation](#spike-simulation)
@@ -8,11 +8,14 @@ This report is the progress of making a Automatic Roof Controller RISCV based ap
   * [Assembly Code](#assembly-code)
   * [Unique Instructions](#unique-instructions)
   * [Functional Simulation](#functional_simulation)
+* [2. Synthesis - Yosys](#2-synthesis---yosys)
+  * [Run Synthesis](#run-synthesis)
+  * [Synthesized Netlist Logic Verification](synthesized-netlist-logic-verification) 
 * [Acknowledgemnet](#acknowledgement)
 * [References](#references)
 
  
-## <a name="1-day---1"></a> 1.Day - 1 ##
+## <a name="1-rtl-and-functional-verification"></a> 1.RTL and Functional Verification ##
 ### <a name="automatic-roof-controller-and-its-working"></a> Automatic Roof Controller and its Working ###
 The objective of this is to create a Rain sensor based Automatic Roof RISCV Controller. Rain sensor-based automatic roof controllers are primarily used in buildings and structures where the roof's position needs to be adjusted in response to rain or other weather conditions. These controllers are designed to detect rain and trigger the closing of the roof to protect the interior from water damage. Here are some common applications for rain sensor-based automatic roof controllers:  
 1. Restaurants, cafes, and outdoor dining spaces often use rain sensor-based controllers to automatically close retractable roofs or awnings when it starts raining. This allows patrons to continue dining without being affected by rain.  
@@ -257,6 +260,32 @@ lw
 
 * Output is changing from 1 to 0 after the execution of instruction ```00ef7f33```  
 
+## <a name="2-synthesis---yosys">/a>2. Synthesis - Yosys ##
+### <a name="run-synthesis">/a>Run Synthesis ##
+**Commands to run synthesis**
+
+    yosys
+    read_liberty -lib sky130_fd_sc_hd__tt_025C_1v80_256.lib 
+    read_verilog processor.v 
+    synth -top wrapper 
+    dfflibmap -liberty sky130_fd_sc_hd__tt_025C_1v80_256.lib 
+
+    
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/a3f6f4f7-0bcf-4356-92ab-6a841427e1fd)
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/f641e062-ada6-4103-801c-9ad2b522bb6e)
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/6c12fb42-1266-4d28-9d80-b94d8c5ac6b5)
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/2b1cf636-83c3-49a7-992a-0c20f8eb3226)
+
+
+
+
+
+
+### <a name="synthesized-netlist-logic-verification">/a>Synthesized Netlist Logic Verification ##
+  
 
     
 ## <a name="acknowledgement"></a> Acknowledgement ##
