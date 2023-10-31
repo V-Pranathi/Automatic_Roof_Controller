@@ -1,4 +1,4 @@
-# Automatic_Roof_Controller
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/e0e22de3-4eb7-496b-9c7d-89cde1446d3e)# Automatic_Roof_Controller
 This report is the progress of making a Automatic Roof Controller RISCV based application
 * [1.Day - 1](#1-day---1)
   * [Automatic Roof Controller and its Working](#automatic-roof-controller-and-its-working)
@@ -227,20 +227,38 @@ lw
 
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/536d16bf-4788-4392-90bc-2c01541ea7fa)
 
-* In the above figure, we can see the test results stating fails:0 which means that UART transmission is done without any error.
-  
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/fb2d8275-4c30-41a3-b7a1-8fd41bd42ca0)
+
+* Since we bypassed the UART write_done is becoming at t=o itself and the ID_instruction starts executing after making the reset zero.
+    
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/62d6f074-e0c5-46db-a510-63943a054250)
 
 * In the testbench I have given the input initially as "1" and then changing the input to "0" correspondingly output is inverted.  By this we verified the functional simulation and now can proceed with the gate level simulation.
 * And the spikes that are visible in the output signal is due to resetting the output to zero after every cycle.
   
-  ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/d27ea076-0efc-405b-92b7-7fde491ad73c)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/d27ea076-0efc-405b-92b7-7fde491ad73c)
 
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/c55fe4fc-85c3-43da-a293-1ac2eb2e8144)
 
 * The ```$signal[31:0]``` is actually represents x30 register where inputs are being stored in there from the sensor retieving thoe values to compute the output and then stored back in the x30 register.
-* The ```ID_instruction``` , each instruction is decoded and then only the later steps takes place one by one. 
+* The ```ID_instruction``` , each instruction is decoded and then only the later steps takes place one by one.
 
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/2f90ebe1-ed37-4331-8473-7c38c15cbc65)
+
+* In the above figure when ID_instruction is being ```02078863```  the pc is getting jumped to a particular instruction this is because at that instruction it is checking whether the input is being 1 or not since it is not '1' so the pc value is not incrementing by one instead jumping to another location.  
+
+           10094:	02078863          	beqz	a5,100c4 <main+0x70>
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/a52bfaee-bcfb-4034-b689-73999a01d168)
+
+* Output is changing from 0 to 1 after the execution of instruction ```00FF6F33```      
+  
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/db1bce17-1feb-4197-8476-3ca5266fd750)
+
+* Output is changing from 1 to 0 after the execution of instruction ```00ef7f33```  
+
+
+    
 ## <a name="acknowledgement"></a> Acknowledgement ##
 * Kunal Ghosh, VSD Corp. Pvt. Ltd.
 * Mayank Kabra
