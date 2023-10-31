@@ -8,7 +8,7 @@ This report is the progress of making a Automatic Roof Controller RISCV based ap
   * [Assembly Code](#assembly-code)
   * [Unique Instructions](#unique-instructions)
   * [Functional Simulation](#functional_simulation)
-* [2. Synthesis - Yosys](#2-synthesis---yosys)
+* [2. Synthesis(Yosys) and GLS](#2-synthesis-yosys--and-gls)
   * [Run Synthesis](#run-synthesis)
   * [Synthesized Netlist Logic Verification](synthesized-netlist-logic-verification) 
 * [Acknowledgemnet](#acknowledgement)
@@ -260,7 +260,7 @@ lw
 
 * Output is changing from 1 to 0 after the execution of instruction ```00ef7f33```  
 
-## <a name="2-synthesis---yosys">/a>2. Synthesis - Yosys ##
+## <a name="2-synthesis-yosys--and-gls">/a>2. Synthesis(Yosys) and GLS ##
 ### <a name="run-synthesis">/a>Run Synthesis ##
 **Commands to run synthesis**
 
