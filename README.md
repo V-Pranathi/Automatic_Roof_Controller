@@ -1,4 +1,4 @@
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/e0e22de3-4eb7-496b-9c7d-89cde1446d3e)# Automatic_Roof_Controller
+# Automatic_Roof_Controller
 This report is the progress of making a Automatic Roof Controller RISCV based application
 * [1.Day - 1](#1-day---1)
   * [Automatic Roof Controller and its Working](#automatic-roof-controller-and-its-working)
