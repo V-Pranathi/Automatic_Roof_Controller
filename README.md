@@ -279,6 +279,7 @@ lw
 
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/2b1cf636-83c3-49a7-992a-0c20f8eb3226)
 
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/494c9a32-6074-43f8-8da9-77bfff491219)
 
 
 
