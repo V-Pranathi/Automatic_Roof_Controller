@@ -264,24 +264,51 @@ lw
 ### <a name="run-synthesis"></a> Run Synthesis ##
 **Commands to run synthesis**
 
-    yosys
-    read_liberty -lib sky130_fd_sc_hd__tt_025C_1v80_256.lib 
-    read_verilog processor.v 
-    synth -top wrapper 
-    dfflibmap -liberty sky130_fd_sc_hd__tt_025C_1v80_256.lib 
+Before running the synthesis, some changes are done in the ```processor.v``` file.  
 
-    
+* Commenting the module definitions of both sky130_sram_2kbyte_1rw1r_32x256_8_data and sky130_sram_2kbyte_1rw1r_32x256_8_inst.   
+* The already instantiated sram modules are also changed from sky130_sram_2kbyte_1rw1r_32x256_8_data and  sky130_sram_2kbyte_1rw1r_32x256_8_inst to  sky130_sram_1kbyte_1rw1r_32x256_8 since the processor doesnt actually neede 2k ram.   
+* Running synthesis two times with ```writing_inst_done=1``` and ```writing_inst_done=0``` and we get two netlists and named as ```synth_test.v``` and ```synth_processor.v``` respectively. When writing_inst_done=1 that means we are by passing the uart so that the .vcd file doesnt takes up 20+GB and using the corresponding netlist gate level simulation is done and also verification is done.   
+
+      yosys
+      read_liberty -lib sky130_fd_sc_hd__tt_025C_1v80_256.lib 
+      read_verilog processor.v 
+      synth -top wrapper 
+      dfflibmap -liberty sky130_fd_sc_hd__tt_025C_1v80_256.lib
+      abc -liberty sky130_fd_sc_hd__tt_025C_1v80_256.lib
+      write_verilog synth_processor.v
+
+**Invoking YOSYS and reading the .lib file**    
+
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/a3f6f4f7-0bcf-4356-92ab-6a841427e1fd)
+
+**Top level module synthesis**
 
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/f641e062-ada6-4103-801c-9ad2b522bb6e)
 
+**Maping the dfflib**
+
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/6c12fb42-1266-4d28-9d80-b94d8c5ac6b5)
+
+**Logic Synthesis using abc tool**
 
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/2b1cf636-83c3-49a7-992a-0c20f8eb3226)
 
+**Gate level Simulation**
+
+Before doing gate level simulation using the synthesised netlist some changes are made in the synthesised netlist file  
+* Before doing synthesis we changed the sram module instantiation names to map it with the standard cell but now while doing simulation this is not a cell this is a module so we need to instantiate the module names as it is from the sky130_sram_1kbyte_1rw1r_32x256_8.v sine module definition is present in that file. (sky130_sram_1kbyte_1rw1r_32x256_8_inst and sky130_sram_1kbyte_1rw1r_32x256_8_data).  
+* And also in the sky130_sram_1kbyte_1rw1r_32x256_8.v file replace the mem instructions to our processor instructions which are taken from the processor.v.
+
+ ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/4e5439f0-9e35-44ce-bdbe-61175ceb5986)  
+
+ After the changes are done run the simulation using the command given below.
+
+    iverilog -o synth_test testbench.v synth_test.v sky130_sram_1kbyte_1rw1r_32x256_8.v sky130_fd_sc_hd.v primitives.v 
+    
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/494c9a32-6074-43f8-8da9-77bfff491219)
 
-
+In the above snapshot under the dut in the left hande side we can see some numbers this indicates that we simulated using the synthesised netlist. And also the output behaviour is matching with the RTL functional simulation. Hence now we can proceed with the openlane flow.   
 
 
 
