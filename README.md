@@ -305,16 +305,13 @@ Before doing gate level simulation using the synthesised netlist some changes ar
  After the changes are done run the simulation using the command given below.
 
     iverilog -o synth_test testbench.v synth_test.v sky130_sram_1kbyte_1rw1r_32x256_8.v sky130_fd_sc_hd.v primitives.v 
-    
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/494c9a32-6074-43f8-8da9-77bfff491219)
-
-In the above snapshot under the dut in the left hande side we can see some numbers this indicates that we simulated using the synthesised netlist. And also the output behaviour is matching with the RTL functional simulation. Hence now we can proceed with the openlane flow.   
-
 
 
 ### <a name="synthesized-netlist-logic-verification"></a> Synthesized Netlist Logic Verification ##
   
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/494c9a32-6074-43f8-8da9-77bfff491219)
 
+In the above snapshot under the dut in the left hande side we can see some numbers this indicates that we simulated using the synthesised netlist. And also the output behaviour is matching with the RTL functional simulation. Hence now we can proceed with the openlane flow.   
     
 ## <a name="acknowledgement"></a> Acknowledgement ##
 * Kunal Ghosh, VSD Corp. Pvt. Ltd.
