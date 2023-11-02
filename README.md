@@ -315,7 +315,7 @@ In the above snapshot under the dut in the left hande side we can see some numbe
     
 ## <a name="acknowledgement"></a> Acknowledgement ##
 * Kunal Ghosh, VSD Corp. Pvt. Ltd.
-* Mayank Kabra
+* Mayank Kabra (Founder, Chipcron Pvt. Ltd.)
 * Bhargav, Colleague, IIITB
 
 ## <a name="references"></a> References ##
