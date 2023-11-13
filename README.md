@@ -337,6 +337,31 @@ In the above snapshot under the dut in the left hande side we can see some numbe
 
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/c40bc32b-856f-4d1b-8250-49c79149a2af)
 
+The clock period used for clocks in the design, in nanoseconds. At first when used the clock period of 15ns got the negative slack as shown in figure to make it positive clock frequency has been reduced which means increased the clock period to 20ns. These changes are made in ```config.json``` file.
+
+    "CLOCK_PERIOD": 15 
+ 
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/d77859af-80df-4726-bd85-70e535c8eaf5)
+
+    "CLOCK_PERIOD":20
+
+which means the clock frequency is f=1/T=1/20ns = 50MHz.
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/7d62e7b9-1ccc-45af-98ac-51e63951a145)
+
+**Power Report**
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/4e1566b8-5568-4688-b23f-e64331e7d75e)
+
+**Area Report**
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/16dcbe35-2433-43c6-96f2-4dc78d7585ac)
+
+**Skew Report**
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/c4fac395-b37e-45c3-82cf-8b41e3d06dd0)
+
+
 ### <a name="run-routing"></a> Run Routing ###
 
 
