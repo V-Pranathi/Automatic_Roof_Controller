@@ -364,6 +364,11 @@ which means the clock frequency is f=1/T=1/20ns = 50MHz.
 
 ### <a name="run-routing"></a> Run Routing ###
 
+ Encountered violations after detailed routing
+ 
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/6bd536a4-121f-4832-bc98-6a5256ac6f14)
+
+
 
 ### <a name="more-tcl-commands"></a> More TCL commands  ###
 
