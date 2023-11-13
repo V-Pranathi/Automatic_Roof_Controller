@@ -8,9 +8,16 @@ This report is the progress of making a Automatic Roof Controller RISCV based ap
   * [Assembly Code](#assembly-code)
   * [Unique Instructions](#unique-instructions)
   * [Functional Simulation](#functional_simulation)
-* [2. Synthesis(Yosys) and GLS](#2-synthesis-yosys--and-gls)
+* [2.Synthesis(Yosys) and GLS](#2-synthesis-yosys--and-gls)
   * [Run Synthesis](#run-synthesis)
-  * [Synthesized Netlist Logic Verification](synthesized-netlist-logic-verification) 
+  * [Synthesized Netlist Logic Verification](synthesized-netlist-logic-verification)
+* [3.PnR  OpenLane Flow](#3-pnr-openlane-flow)
+  * [Run Synthesis](#run-synthesis)
+  * [Run Floorplan](#run-floorplan)
+  * [Run Placement](#run-placement)
+  * [Run CTS](#run-cts)
+  * [Run Routing](#run-routing)
+  * [More TCL commands](#more-tcl-commands)
 * [Acknowledgemnet](#acknowledgement)
 * [References](#references)
 
@@ -312,6 +319,30 @@ Before doing gate level simulation using the synthesised netlist some changes ar
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/494c9a32-6074-43f8-8da9-77bfff491219)
 
 In the above snapshot under the dut in the left hande side we can see some numbers this indicates that we simulated using the synthesised netlist. And also the output behaviour is matching with the RTL functional simulation. Hence now we can proceed with the openlane flow.   
+
+## <a name="3-pnr-openlane-flow"></a> 3.PnR  OpenLane Flow ##
+### <a name="run-synthesis"></a> Run Synthesis ###
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/34a8a031-7444-4ebc-8935-bb0d59ea6b88)
+
+### <a name="run-floorplan"></a> Run Floorplan  ###
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/ba315c26-567b-42c0-95fd-79e7b5e73e90)
+
+### <a name="run-placement"></a> Run-Placement ###
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/bf06b107-05a6-476a-ab91-bd1dc8937c0d)
+
+### <a name="run-cts"></a> Run CTS ###
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/c40bc32b-856f-4d1b-8250-49c79149a2af)
+
+### <a name="run-routing"></a> Run Routing ###
+
+
+### <a name="more-tcl-commands"></a> More TCL commands  ###
+
+
     
 ## <a name="acknowledgement"></a> Acknowledgement ##
 * Kunal Ghosh, VSD Corp. Pvt. Ltd.
