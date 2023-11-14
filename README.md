@@ -321,6 +321,48 @@ Before doing gate level simulation using the synthesised netlist some changes ar
 In the above snapshot under the dut in the left hande side we can see some numbers this indicates that we simulated using the synthesised netlist. And also the output behaviour is matching with the RTL functional simulation. Hence now we can proceed with the openlane flow.   
 
 ## <a name="3-pnr-openlane-flow"></a> 3.PnR  OpenLane Flow ##
+OpenLane is an open-source digital ASIC implementation flow developed by the OpenROAD project. It automates many of the steps involved in the ASIC design process, including synthesis, floorplanning, placement, and routing. The OpenLane flow is typically used for designing and implementing digital integrated circuit.   
+
+ **Synthesis**   
+   
+ * yosys/abc - Perform RTL synthesis and technology mapping.  
+ * OpenSTA - Performs static timing analysis on the resulting netlist to generate timing reports  
+
+ **Floorplaning**
+
+  * init_fp - Defines the core area for the macro as well as the rows (used for placement) and the tracks (used for routing)  
+  * ioplacer - Places the macro input and output ports  
+  * pdngen - Generates the power distribution network  
+  * tapcell - Inserts welltap and decap cells in the floorplan  
+
+ **Placement**  
+
+  * RePLace - Performs global placement
+  * Resizer - Performs optional optimizations on the design
+  * OpenDP - Performs detailed placement to legalize the globally placed components
+
+  **CTS**
+  
+   * TritonCTS - Synthesizes the clock distribution network (the clock tree)
+
+   **Routing**
+
+   * FastRoute - Performs global routing to generate a guide file for the detailed router
+   * TritonRoute - Performs detailed routing
+   * OpenRCX - Performs SPEF extraction
+
+   **Tapeout**
+
+   * Magic - Streams out the final GDSII layout file from the routed def
+   * KLayout - Streams out the final GDSII layout file from the routed def as a back-up
+
+   **Signoff**
+
+   * Magic - Performs DRC Checks & Antenna Checks
+   * KLayout - Performs DRC Checks
+   * Netgen - Performs LVS Checks
+   * CVC - Performs Circuit Validity Checks
+
 ### <a name="run-synthesis"></a> Run Synthesis ###
 
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/34a8a031-7444-4ebc-8935-bb0d59ea6b88)
@@ -332,6 +374,10 @@ In the above snapshot under the dut in the left hande side we can see some numbe
 ### <a name="run-placement"></a> Run-Placement ###
 
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/bf06b107-05a6-476a-ab91-bd1dc8937c0d)
+
+    magic -T /home/pranathi/vsdstdcelldesign/libs/sky130A.tech lef read /home/pranathi/OpenLane/designs/processor/runs/RUN_2023.11.14_12.14.14/tmp/merged.nom.lef def read /home/pranathi/OpenLane/designs/processor/runs/RUN_2023.11.14_12.14.14/results/placement/wrapper.def 
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/80601249-5f1b-4397-bffa-588ea54fd235)
 
 ### <a name="run-cts"></a> Run CTS ###
 
@@ -368,6 +414,11 @@ which means the clock frequency is f=1/T=1/20ns = 50MHz.
  
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/6bd536a4-121f-4832-bc98-6a5256ac6f14)
 
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/ecf1b44d-dcf5-45cc-84f6-18297b44086b)
+
+     magic -T /home/pranathi/vsdstdcelldesign/libs/sky130A.tech lef read /home/pranathi/OpenLane/designs/processor/runs/RUN_2023.11.14_12.14.14/tmp/merged.nom.lef def read /home/pranathi/OpenLane/designs/processor/runs/RUN_2023.11.14_12.14.14/results/routing/wrapper.def 
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/ac52e9e2-e3ba-4852-b5f5-8013b6032682)
 
 
 ### <a name="more-tcl-commands"></a> More TCL commands  ###
@@ -382,5 +433,6 @@ which means the clock frequency is f=1/T=1/20ns = 50MHz.
 ## <a name="references"></a> References ##
 * https://randomnerdtutorials.com/guide-for-rain-sensor-fc-37-or-yl-83-with-arduino/
 * https://github.com/SakethGajawada/RISCV-GNU
+* https://github.com/The-OpenROAD-Project/OpenLane
 
 
