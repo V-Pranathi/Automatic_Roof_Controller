@@ -414,12 +414,14 @@ which means the clock frequency is f=1/T=1/20ns = 50MHz.
  
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/6bd536a4-121f-4832-bc98-6a5256ac6f14)
 
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/ecf1b44d-dcf5-45cc-84f6-18297b44086b)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/9c1a8cd6-5068-4cb6-bf62-dbef2f365431)
+
 
      magic -T /home/pranathi/vsdstdcelldesign/libs/sky130A.tech lef read /home/pranathi/OpenLane/designs/processor/runs/RUN_2023.11.14_12.14.14/tmp/merged.nom.lef def read /home/pranathi/OpenLane/designs/processor/runs/RUN_2023.11.14_12.14.14/results/routing/wrapper.def 
 
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/ac52e9e2-e3ba-4852-b5f5-8013b6032682)
 
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/ecf1b44d-dcf5-45cc-84f6-18297b44086b)
 
 ### <a name="more-tcl-commands"></a> More TCL commands  ###
 
