@@ -1,4 +1,4 @@
-# Automatic_Roof_Controller
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/0e701ba2-2fb9-48c9-9ce2-2a3025fbbdc3)# Automatic_Roof_Controller
 This report is the progress of making a Automatic Roof Controller RISCV based application
 * [1.RTL and Functional verification](#1-rtl-and-functional-verification)
   * [Automatic Roof Controller and its Working](#automatic-roof-controller-and-its-working)
@@ -450,6 +450,8 @@ The clock period used for clocks in the design, in nanoseconds. At first when us
 
 ### <a name="run-routing"></a> Run Routing ###
 
+     run_routing
+
  Encountered violations after detailed routing
  
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/6bd536a4-121f-4832-bc98-6a5256ac6f14)
@@ -466,10 +468,49 @@ To rectify those violations some changes are done in the config.json file ```FP_
 
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/ecf1b44d-dcf5-45cc-84f6-18297b44086b)
 
+**No violations**
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/2255764a-2313-4ab9-96af-ed13fb16d5d5)
+
+**Post Routing Power reports**
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/0e930803-dc90-489e-9af9-5b17fd62d682)
+
+**Post Routing Timing reports**
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/2faab7a9-c80b-40fa-9a7e-3e9ba8cd7e94)
+
+**Post Routing area reports**
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/334da6e4-ccc0-40a8-ad96-39a6fb862f8b)
+
+#### Max Frequency of operation 
+
+From the ```config.json``` file the clock period is 90ns and from the timing reports we can observe the slack of 25.08ns. To calculate the maximum frequency of operation,fmax we use the formula given below.
+
+                                1
+           fmax =  -----------------------------
+                       Tclock - slack(setup) 
+
+            fmax = 15.4 MHz.
+
+The maximum frequency of operation is 15.4 MHz. 
+
 ### <a name="more-tcl-commands"></a> More TCL commands  ###
 
+    RUN_MAGIC
 
-    
+ Enables running magic and GDSII streaming.
+ 
+    RUN_MAGIC_SPICE_EXPORT
+    RUN_MAGIC_DRC
+	
+ Enables running magic DRC on GDSII produced by magic.
+
+    RUN_ANTENNA_CHECK
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/a74670e0-8650-4a2f-942f-282dbcce72c6)
+
 ## <a name="acknowledgement"></a> Acknowledgement ##
 * Kunal Ghosh, VSD Corp. Pvt. Ltd.
 * Mayank Kabra (Founder, Chipcron Pvt. Ltd.)
