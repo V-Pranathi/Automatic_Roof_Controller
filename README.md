@@ -1,4 +1,4 @@
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/0e701ba2-2fb9-48c9-9ce2-2a3025fbbdc3)# Automatic_Roof_Controller
+# Automatic_Roof_Controller
 This report is the progress of making a Automatic Roof Controller RISCV based application
 * [1.RTL and Functional verification](#1-rtl-and-functional-verification)
   * [Automatic Roof Controller and its Working](#automatic-roof-controller-and-its-working)
