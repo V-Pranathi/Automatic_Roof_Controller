@@ -363,21 +363,63 @@ OpenLane is an open-source digital ASIC implementation flow developed by the Ope
    * Netgen - Performs LVS Checks
    * CVC - Performs Circuit Validity Checks
 
+### Invoking the Openlane and Preparing the design ###
+
+    cd Openlane
+    make mount
+    ./flow.tcl -interactive
+    package require openlane 0.9
+    prep -design processor
+    
 ### <a name="run-synthesis"></a> Run Synthesis ###
+
+    run_synthesis
+
+Since my macro is huge, So I set the ```SYNTH_NO_FLAT``` to 1 true (JSON), which will postpone the flattening of the design during synthesis until the very end.
 
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/34a8a031-7444-4ebc-8935-bb0d59ea6b88)
 
+**Post Synthesis report**
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/035b8863-68b3-4e34-be9b-c8bd21a8962b)
+
 ### <a name="run-floorplan"></a> Run Floorplan  ###
 
+    run_floorplan
+    
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/ba315c26-567b-42c0-95fd-79e7b5e73e90)
+
+**Floorplan Core area**
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/8fa1eb04-f39f-4be8-9598-86aba64a46ad)
+
+**Floorplan Die area**
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/3dfd726c-3711-4a14-97d3-a396eafd4ef5)
+
+**Magic**  
+
+* After running the floorplan it will have created a def file. For viewing the floorplan run the following command.
+
+      magic -T /home/pranathi/vsdstdcelldesign/libs/sky130A.tech lef read /home/pranathi/OpenLane/designs/processor/runs/RUN_2023.11.14_12.14.14/tmp/merged.nom.lef def read /home/pranathi/OpenLane/designs/processor/runs/RUN_2023.11.14_12.14.14/results/floorplan/wrapper.def 
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/9774d24c-e533-4da6-8828-1865f6315a2c)
 
 ### <a name="run-placement"></a> Run-Placement ###
 
+    run_placement
+    
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/bf06b107-05a6-476a-ab91-bd1dc8937c0d)
+
+**Magic**
 
     magic -T /home/pranathi/vsdstdcelldesign/libs/sky130A.tech lef read /home/pranathi/OpenLane/designs/processor/runs/RUN_2023.11.14_12.14.14/tmp/merged.nom.lef def read /home/pranathi/OpenLane/designs/processor/runs/RUN_2023.11.14_12.14.14/results/placement/wrapper.def 
 
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/80601249-5f1b-4397-bffa-588ea54fd235)
+
+**Post Placement reports**
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/d8932714-a22d-4afe-b2e2-0f37a679f2b2)
 
 ### <a name="run-cts"></a> Run CTS ###
 
@@ -390,8 +432,6 @@ The clock period used for clocks in the design, in nanoseconds. At first when us
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/d77859af-80df-4726-bd85-70e535c8eaf5)
 
     "CLOCK_PERIOD":20
-
-which means the clock frequency is f=1/T=1/20ns = 50MHz.
 
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/7d62e7b9-1ccc-45af-98ac-51e63951a145)
 
@@ -414,8 +454,11 @@ which means the clock frequency is f=1/T=1/20ns = 50MHz.
  
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/6bd536a4-121f-4832-bc98-6a5256ac6f14)
 
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/9c1a8cd6-5068-4cb6-bf62-dbef2f365431)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/cea2784b-e6f7-46a6-9ee6-d65cfd5f01ae)
 
+To rectify those violations some changes are done in the config.json file ```FP_CORE_UTIL: 40```   ```PL_TARGET_DENSITY: 0.3``` 
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/9c1a8cd6-5068-4cb6-bf62-dbef2f365431)
 
      magic -T /home/pranathi/vsdstdcelldesign/libs/sky130A.tech lef read /home/pranathi/OpenLane/designs/processor/runs/RUN_2023.11.14_12.14.14/tmp/merged.nom.lef def read /home/pranathi/OpenLane/designs/processor/runs/RUN_2023.11.14_12.14.14/results/routing/wrapper.def 
 
