@@ -377,53 +377,53 @@ OpenLane is an open-source digital ASIC implementation flow developed by the Ope
 
 Since my macro is huge, So I set the ```SYNTH_NO_FLAT``` to 1 true (JSON), which will postpone the flattening of the design during synthesis until the very end.
 
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/34a8a031-7444-4ebc-8935-bb0d59ea6b88)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/946880b6-5428-4e2f-9067-0db0b57e30ce)
 
 **Post Synthesis report**
 
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/035b8863-68b3-4e34-be9b-c8bd21a8962b)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/82a360c5-7010-45fc-9f0d-cf6166bba917)
 
 ### <a name="run-floorplan"></a> Run Floorplan  ###
 
     run_floorplan
     
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/ba315c26-567b-42c0-95fd-79e7b5e73e90)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/5ec797b6-fe51-4e62-ae4d-9b24e7824cfb)
 
 **Floorplan Core area**
 
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/8fa1eb04-f39f-4be8-9598-86aba64a46ad)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/c694f1b9-09c6-4b78-9c64-0b8ed4995c4d)
 
 **Floorplan Die area**
 
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/3dfd726c-3711-4a14-97d3-a396eafd4ef5)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/49999cbe-a74f-4f20-bf8a-2194adb6a1f7)
 
 **Magic**  
 
 * After running the floorplan it will have created a def file. For viewing the floorplan run the following command.
+  
+		magic -T /home/pranathi/vsdstdcelldesign/libs/sky130A.tech lef read /home/pranathi/OpenLane/designs/processor/runs/RUN_2023.11.20_19.55.38/tmp/merged.nom.lef def read /home/pranathi/OpenLane/designs/processor/runs/RUN_2023.11.20_19.55.38/results/floorplan/wrapper.def 
 
-      magic -T /home/pranathi/vsdstdcelldesign/libs/sky130A.tech lef read /home/pranathi/OpenLane/designs/processor/runs/RUN_2023.11.14_12.14.14/tmp/merged.nom.lef def read /home/pranathi/OpenLane/designs/processor/runs/RUN_2023.11.14_12.14.14/results/floorplan/wrapper.def 
-
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/9774d24c-e533-4da6-8828-1865f6315a2c)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/32f3c251-3d7e-43d8-a6b5-69bcd63eeca3)
 
 ### <a name="run-placement"></a> Run-Placement ###
 
     run_placement
     
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/bf06b107-05a6-476a-ab91-bd1dc8937c0d)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/9dea5bde-ddd9-4175-83db-6d81603ee305)
 
 **Magic**
 
-    magic -T /home/pranathi/vsdstdcelldesign/libs/sky130A.tech lef read /home/pranathi/OpenLane/designs/processor/runs/RUN_2023.11.14_12.14.14/tmp/merged.nom.lef def read /home/pranathi/OpenLane/designs/processor/runs/RUN_2023.11.14_12.14.14/results/placement/wrapper.def 
+     magic -T /home/pranathi/vsdstdcelldesign/libs/sky130A.tech lef read /home/pranathi/OpenLane/designs/processor/runs/RUN_2023.11.20_19.55.38/tmp/merged.nom.lef def read /home/pranathi/OpenLane/designs/processor/runs/RUN_2023.11.20_19.55.38/results/placement/wrapper.def 
 
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/80601249-5f1b-4397-bffa-588ea54fd235)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/62d61062-3a1e-44fa-9261-e0e77fb95704)
 
 **Post Placement reports**
 
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/d8932714-a22d-4afe-b2e2-0f37a679f2b2)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/8c58c7ed-685c-4111-aae1-423aae01384d)
 
 ### <a name="run-cts"></a> Run CTS ###
 
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/c40bc32b-856f-4d1b-8250-49c79149a2af)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/9eb8ca56-aa6c-478c-b651-8074a2b770dc)
 
 The clock period used for clocks in the design, in nanoseconds. At first when used the clock period of 15ns got the negative slack as shown in figure to make it positive clock frequency has been reduced which means increased the clock period to 20ns. These changes are made in ```config.json``` file.
 
@@ -431,22 +431,21 @@ The clock period used for clocks in the design, in nanoseconds. At first when us
  
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/d77859af-80df-4726-bd85-70e535c8eaf5)
 
-    "CLOCK_PERIOD":20
+    "CLOCK_PERIOD":24
 
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/7d62e7b9-1ccc-45af-98ac-51e63951a145)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/d0a64e22-29c0-4d51-b147-9e5d9805f68c)
 
 **Power Report**
 
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/4e1566b8-5568-4688-b23f-e64331e7d75e)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/e89c9942-8b2c-4c9e-abf4-1a0a4b3d1149)
 
 **Area Report**
 
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/16dcbe35-2433-43c6-96f2-4dc78d7585ac)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/962d2473-3ae6-42d0-8e1b-c3aece2ba390)
 
 **Skew Report**
 
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/c4fac395-b37e-45c3-82cf-8b41e3d06dd0)
-
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/56b9feb0-d79c-44e3-94ad-c387c2ee9f5a)
 
 ### <a name="run-routing"></a> Run Routing ###
 
@@ -458,15 +457,17 @@ The clock period used for clocks in the design, in nanoseconds. At first when us
 
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/cea2784b-e6f7-46a6-9ee6-d65cfd5f01ae)
 
-To rectify those violations some changes are done in the config.json file ```FP_CORE_UTIL: 40```   ```PL_TARGET_DENSITY: 0.3``` 
+To rectify those violations some changes are done in the config.json file ```FP_CORE_UTIL: 10```   ```PL_TARGET_DENSITY: 0.3``` ```PL_MACRO_CHANNEL: "200 200"```
 
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/9c1a8cd6-5068-4cb6-bf62-dbef2f365431)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/efc14f05-079a-4a01-82fb-19b9e00aa3c5)
 
      magic -T /home/pranathi/vsdstdcelldesign/libs/sky130A.tech lef read /home/pranathi/OpenLane/designs/processor/runs/RUN_2023.11.14_12.14.14/tmp/merged.nom.lef def read /home/pranathi/OpenLane/designs/processor/runs/RUN_2023.11.14_12.14.14/results/routing/wrapper.def 
 
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/ac52e9e2-e3ba-4852-b5f5-8013b6032682)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/bef1828d-033f-4df3-9c8d-8d6190c66987)
 
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/ecf1b44d-dcf5-45cc-84f6-18297b44086b)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/4d5e4eac-7359-45f1-835d-6bc5c4043baa)
+
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/c2e77d7c-ac13-4f88-bb13-9900601f92a7)
 
 **Area using box command**
 
@@ -474,31 +475,31 @@ To rectify those violations some changes are done in the config.json file ```FP_
 
 **No violations**
 
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/2255764a-2313-4ab9-96af-ed13fb16d5d5)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/d60a7868-5597-4991-b6ad-2af87bff02d7)
 
 **Post Routing Power reports**
 
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/0e930803-dc90-489e-9af9-5b17fd62d682)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/9b91b578-2d11-4180-aebf-a1d5003ba146)
 
 **Post Routing Timing reports**
 
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/2faab7a9-c80b-40fa-9a7e-3e9ba8cd7e94)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/a70d0cd0-a0ad-4b91-90dc-21137a500abe)
 
 **Post Routing area reports**
 
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/334da6e4-ccc0-40a8-ad96-39a6fb862f8b)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/046a9b53-73d0-46f8-8c57-4f72c2ac675c)
 
 #### Max Frequency of operation 
 
-From the ```config.json``` file the clock period is 90ns and from the timing reports we can observe the slack of 25.08ns. To calculate the maximum frequency of operation,fmax we use the formula given below.
+From the ```config.json``` file the clock period is 24ns and from the timing reports we can observe the slack of 4.91ns. To calculate the maximum frequency of operation,fmax we use the formula given below.
 
                                 1
            fmax =  -----------------------------
                        Tclock - slack(setup) 
 
-            fmax = 15.4 MHz.
+            fmax = 52.38 MHz.
 
-The maximum frequency of operation is 15.4 MHz. 
+The maximum frequency of operation is 52.38 MHz. 
 
 ### <a name="more-tcl-commands"></a> More TCL commands  ###
 
