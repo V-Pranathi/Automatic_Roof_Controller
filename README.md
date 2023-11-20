@@ -469,10 +469,6 @@ To rectify those violations some changes are done in the config.json file ```FP_
 
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/c2e77d7c-ac13-4f88-bb13-9900601f92a7)
 
-**Area using box command**
-
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/8e1c5429-3aad-44d1-8f2c-6c9a0a6d7f08)
-
 **No violations**
 
 ![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/d60a7868-5597-4991-b6ad-2af87bff02d7)
