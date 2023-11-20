@@ -510,7 +510,7 @@ The maximum frequency of operation is 52.38 MHz.
 
     RUN_ANTENNA_CHECK
 
-![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/a74670e0-8650-4a2f-942f-282dbcce72c6)
+![image](https://github.com/V-Pranathi/Automatic_Roof_Controller/assets/140998763/3d305fe1-8534-4653-b7b0-594dfe0d416d)
 
 ## <a name="acknowledgement"></a> Acknowledgement ##
 * Kunal Ghosh, VSD Corp. Pvt. Ltd.
